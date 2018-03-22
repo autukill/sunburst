@@ -1,0 +1,11 @@
+.eyeColor {
+	background-color: #FAF9DE;
+}
+
+#paper-question-list-index [class*=stub] {
+	padding-top: 6px;
+	padding-bottom: 6px;
+	width: 45px;
+	border: 1px solid lightgray !important;
+	text-align: center;
+}

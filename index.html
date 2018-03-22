@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="author" content="Autukill">
+		<meta name="description" content="南方电网安规考试复习">
+		<meta name="keywords" content="南方电网,安规,模拟">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="metro4:init" content="false">
+		<title>南方电网安规考试复习系统</title>
+		<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/metro/4.1.2/css/metro-all.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+	</head>
+
+	<body>
+		<div data-role="appbar" style="background-color: #0078d7;">
+			<a href="javascript:location.reload(1)" class="brand text-leader" style="color:#f5f5f5;"> 2018 年南方电网安规复习系统 </a>
+		</div>
+		<div class="container-fluid" id="home">
+			<div class="container hero">
+				<ul id="subjects" class="tabs-expand-md" data-role="tabs">
+					<li>
+						<a href="#_target_1">电力安全工作规程</a>
+					</li>
+					<li>
+						<a href="#_target_2">安全生产令</a>
+					</li>
+					<li>
+						<a href="#_target_3">电力建设安全工作规程</a>
+					</li>
+				</ul>
+				<div class="border bd-default no-border-top p-2">
+					<div id="_target_1">
+
+						<ul data-role="listview" data-view="icons-medium" data-on-node-click="onSelectPaper">
+							<li data-caption="复习卷">
+								<ul>
+									<li data-icon="<span class='mif-folder fg-orange'>" data-caption="卷一"></li>
+									<li data-icon="<span class='mif-folder fg-cyan'>" data-caption="卷二"></li>
+									<li data-icon="<span class='mif-folder fg-green'>" data-caption="卷三"></li>
+									<li data-icon="<span class='mif-folder fg-blue'>" data-caption="卷四"></li>
+									<li data-icon="<span class='mif-folder'>" data-caption="卷五"></li>
+									<li data-icon="<span class='mif-folder fg-red'>" data-caption="卷六"></li>
+								</ul>
+							</li>
+							<li data-caption="专项复习">
+								<ul>
+									<li data-icon="<span class='mif-folder-plus fg-red'></span>" data-caption="单选题"></li>
+									<li data-icon="<span class='mif-folder-plus fg-green'></span>" data-caption="多选题"></li>
+									<li data-icon="<span class='mif-folder-plus fg-blue'></span>" data-caption="判断题"></li>
+								</ul>
+							</li>
+							<li data-caption="模拟测试">
+								<ul>
+									<li data-icon="<span class='mif-folder-special fg-blue'></span>" data-caption="仿真模拟"></li>
+								</ul>
+							</li>
+						</ul>
+
+					</div>
+					<div id="_target_2">
+						empty
+					</div>
+					<div id="_target_3">
+						empty
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid" id="paper" style="display: none;">
+			<div class="container hero">
+				<blockquote class="bd-green">
+					<div class="h6">复习测试</div>
+					<div class="small">题源：卷一 </div>
+					<div class="small">科目：电力建设安全工作规程 </div>
+				</blockquote>
+
+				<div class="container border bd-lightGray" style="padding-top:1em; padding-bottom: 1em; margin-bottom: 1em;">
+					<div class="form-group">
+						<div style="margin-bottom: 1em;">
+							<code class="info">1/100</code>
+							<code class="info">单选题</code>
+						</div>
+						<div class="h7 indent">依据《电力建设安全工作规程》（架空电力线路部分）,施工现场电动机械和工具应做到“一机一闸一保护”，（ ）一个开关或一个插座接两台及以上电气设备或电动工具。</div>
+					</div>
+					<div class="form-group">
+						<input type="radio" data-role="radio" name="r1" data-caption="A.不得" />
+					</div>
+					<div class="form-group">
+						<input type="radio" data-role="radio" name="r1" data-caption="B.可以" />
+					</div>
+					<div class="form-group">
+						<input type="radio" data-role="radio" name="r1" data-caption="C.根据情况" />
+					</div>
+					<div class="form-group">
+						<input type="radio" data-role="radio" name="r1" data-caption="D.应当" />
+					</div>
+					<div class="form-group">
+						<div class="row flex-justify-around">
+							<div class="cell">
+								<button class="button success">下一题</button>
+								<button class="button secondary">上一题</button>
+							</div>
+							<div class="cell">
+								<button class="button info" id="quesiton-point-toggle">答案要点</button>
+								<button class="button warning" onclick="location.reload(1)">交卷</button>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="" data-role="collapse" data-toggle-element="#quesiton-point-toggle" data-collapsed="true">
+							<p>正确答案：B</p>
+							<p>答案要点：高处焊接与切割作业安全要求：</p>
+							<p> a） 应遵守高处作业的有关规定。 </p>
+							<p> b） 作业前应对熔渣有可能落入范围内的易燃易爆物进行清除，或采取可靠的隔离、防护措施。 </p>
+							<p> c） 严禁携带电焊导线或气焊软管登高或从高处跨越。</p>
+							<p> d） 使用绳索提吊电焊导线或气焊软管时应切断工作电源或气源。</p>
+							<p> e） 地面应有人监护和配合。</p>
+						</div>
+					</div>
+				</div>
+
+				<blockquote class="bd-green">
+					<div class="h6">题目索引</div>
+				</blockquote>
+				<div class="container" style="margin-top: 1em;" id="paper-question-list-index">
+					<div class="grid" style="margin-top: 1em;">
+						<div class="row">
+							<div class="stub bg-green"> 1 </div>
+							<div class="stub bg-red"> 2 </div>
+							<div class="stub"> 3 </div>
+							<div class="stub"> 4 </div>
+							<div class="stub"> 5 </div>
+							<div class="stub"> 6 </div>
+							<div class="stub bg-yellow"> 7 </div>
+							<div class="stub bg-yellow"> 8 </div>
+							<div class="stub"> 9</div>
+							<div class="stub"> 10 </div>
+							<div class="stub"> 11 </div>
+							<div class="stub"> 12 </div>
+							<div class="stub"> 13 </div>
+							<div class="stub"> 14 </div>
+							<div class="stub"> 15 </div>
+							<div class="stub"> 16 </div>
+							<div class="stub"> 17 </div>
+							<div class="stub"> 18 </div>
+							<div class="stub"> 19 </div>
+							<div class="stub"> 20 </div>
+							<div class="stub"> 21 </div>
+							<div class="stub"> 22 </div>
+							<div class="stub"> 23 </div>
+							<div class="stub"> 24 </div>
+							<div class="stub"> 25 </div>
+							<div class="stub"> 26</div>
+							<div class="stub"> 27 </div>
+							<div class="stub"> 28 </div>
+							<div class="stub"> 29 </div>
+							<div class="stub"> 30 </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/metro/4.1.2/js/metro.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+
+	</body>
+
+</html>
