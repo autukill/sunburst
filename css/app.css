@@ -9,3 +9,34 @@
 	border: 1px solid lightgray !important;
 	text-align: center;
 }
+
+/**
+ * 设定首页复习卷子项目的图标颜色
+ */
+#home-paper-list>ul>li:nth-child(1)>span>span {
+	color: #fa6800!important;
+}
+
+#home-paper-list>ul>li:nth-child(2)>span>span {
+	color: #1ba1e2!important;
+}
+
+#home-paper-list>ul>li:nth-child(3)>span>span {
+	color: #60a917!important;
+}
+
+#home-paper-list>ul>li:nth-child(4)>span>span {
+	color: #c44dff !important;
+}
+
+#home-paper-list>ul>li:nth-child(5)>span>span {
+	color: #95ab8d !important;
+}
+
+#home-paper-list>ul>li:nth-child(6)>span>span {
+	color: #ffe484!important;
+}
+
+#home-paper-list>ul>li:nth-child(7)>span>span {
+	color: #fa6800!important;
+}
