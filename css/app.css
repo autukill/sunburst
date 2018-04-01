@@ -1,6 +1,8 @@
-html,body,#app {
+html,
+body {
 	height: 100%;
 }
+
 .eyeColor {
 	background-color: #FAF9DE;
 }
@@ -13,9 +15,34 @@ html,body,#app {
 	text-align: center;
 }
 
+.question-option-group{
+	margin-bottom: 1rem;
+	margin-top: 1rem;
+}
+/**
+ * 取消答题选项被选中的过渡效果
+ */
+#paper .question-option>.check {
+	transition: none;
+	-webkit-transition: none;
+}
+
+#paper .stub {
+	padding: 0;
+	width: 46px;
+	cursor: pointer;
+	user-select: none;
+	-webkit-user-select: none;
+	
+	-webkit-transition: none;
+	transition: none;
+}
+
+
 /**
  * 设定首页复习卷子项目的图标颜色
  */
+
 #home-paper-list>ul>li:nth-child(1)>span>span {
 	color: #fa6800!important;
 }
