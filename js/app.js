@@ -308,7 +308,7 @@ new Vue({
  */
 function openPaper(node, listview) {
 	var subjectIndex = app.vue.currentSubjectIndex;
-	var paperTypeName = app.vue.paperTypeName = node.attr('date-type');
+	var paperTypeName = app.vue.paperTypeName = node.attr('data-type');
 	
 	switch(paperTypeName) {
 		// 专项 单选题
