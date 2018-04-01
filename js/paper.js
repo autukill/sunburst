@@ -16,10 +16,12 @@ function question() {
 	 * 选项列表
 	 */
 	this.options = [];
+
 	/**
 	 * 答案
 	 */
 	this.key = "";
+
 	/**
 	 * 答案要点
 	 */
@@ -42,15 +44,26 @@ function paper(_version) {
 	 * 加载文件
 	 */
 	this.load = function(filePath, callback) {
-		var data = $.ajax({
+		var fileMd5 = Metro.utils.md5(filePath);
+		var data = localStorage.getItem(fileMd5);
+		if(data != null) {
+			self.questions = JSON.parse(data);
+			if(callback) {
+				callback(self)
+			}
+			return;
+		}
+		$.ajax({
 			url: filePath,
 			dataType: "text",
 			success: function(data) {
 				var parser = self;
-				var result = parser.parse(data);
+				parser.parse(data);
+
+				localStorage.setItem(fileMd5, JSON.stringify(self.questions));
 
 				if(callback) {
-					callback(result)
+					callback(self)
 				}
 			}
 		});
@@ -78,9 +91,11 @@ function paper(_version) {
 		// 用于存放题目解析出的数据
 		var obj = null;
 		for(var index = 0; index < datas.length; index++) {
+			// 一行字符串
 			var targetData = datas[index];
-
+			// 判断 回车行(空行)
 			var dataEmpty = targetData.charCodeAt() == 13;
+			// 当前题目解析完成的状态
 			var objClose = dataEmpty && (obj != null);
 
 			if(dataEmpty) {
@@ -105,7 +120,7 @@ function paper(_version) {
 			// 选项列表
 			var value = optionReg.exec(targetData);
 			if(value != null) {
-				obj.options.push(value[1]);
+				obj.options.push(value[0]);
 				continue;
 			}
 
