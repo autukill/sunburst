@@ -6,12 +6,15 @@
 ### 起因
 他们公司内部有安规模拟测试程序,是否是官方的我不得而知,程序文件头部标注的修订日期是2002年,难受的是那程序使用了 IE 浏览器的 ActiveX 控件以及 VBScript,对现代浏览器很不友好,对我父亲很不友好.
 
-## 演示
-https://autumn.coding.me/sunburst
-
 ## 题库格式要求
 - 编码格式 UTF-8
 - 每行文本开头没有空格
 - 文本"Answer:A"中的冒号使用":"
 - 文本"答案要点："中的冒号使用"："
 - 大写的选项序列"ABCDEF..." 
+
+## 演示
+####在线地址:https://autumn.coding.me/sunburst
+存在问题:Coding Pages ( Github Pages) 服务器上使用 ajax 异步请求文件存在限制?反正我不能正常处理.
+
+本地 WampServer 环境是能正常运行的.
