@@ -93,8 +93,8 @@ function paper(_version) {
 		for(var index = 0; index < datas.length; index++) {
 			// 一行字符串
 			var targetData = datas[index];
-			// 判断 回车行(空行)
-			var dataEmpty = targetData.charCodeAt() == 13;
+			// 判断空行
+			var dataEmpty = targetData.length == 0;
 			// 当前题目解析完成的状态
 			var objClose = dataEmpty && (obj != null);
 
