@@ -14,7 +14,6 @@
 - 大写的选项序列"ABCDEF..." 
 
 ## 演示
-####在线地址:https://autumn.coding.me/sunburst
-存在问题:Coding Pages ( Github Pages) 服务器上使用 ajax 异步请求文件存在限制?反正我不能正常处理.
+https://autumn.coding.me/sunburst
 
-本地 WampServer 环境是能正常运行的.
+https://autukill.github.io/sunburst
