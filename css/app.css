@@ -3,6 +3,10 @@ body {
 	height: 100%;
 }
 
+.loadingHide {
+	display: none;
+}
+
 .eyeColor {
 	background-color: #FAF9DE;
 }
@@ -15,34 +19,42 @@ body {
 	text-align: center;
 }
 
+
 /***
  * 选项
  */
-.question-option-group{
+
+.question-option-group {
 	margin-bottom: 1rem;
 	margin-top: 1rem;
 }
 
+
 /***
  * 选项描述的行间距
  */
-.question-option-group span.caption{
+
+.question-option-group span.caption {
 	line-height: 1rem;
 }
+
 
 /**
  * 取消答题选项被选中的过渡效果
  */
+
 #paper .question-option>.check {
 	transition: none;
 	-webkit-transition: none;
 	margin-left: 0px;
 }
 
+
 /**
  * 修正答题选项多行时 radio 被压扁
  */
-.question-option{
+
+.question-option {
 	display: -webkit-inline-box;
 }
 
@@ -52,7 +64,6 @@ body {
 	cursor: pointer;
 	user-select: none;
 	-webkit-user-select: none;
-	
 	-webkit-transition: none;
 	transition: none;
 }
