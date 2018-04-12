@@ -94,7 +94,7 @@ function paper(_version) {
 			// 一行字符串
 			var targetData = datas[index];
 			// 判断空行
-			var dataEmpty = targetData.length == 0;
+			var dataEmpty = targetData.length == 0 || targetData.charCodeAt(0) == 13;
 			// 当前题目解析完成的状态
 			var objClose = dataEmpty && (obj != null);
 
