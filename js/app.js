@@ -141,6 +141,7 @@ new Vue({
 	mounted: function() {
 		app.vue = this;
 		Metro.init();
+		$(".loadingHide").show(500);		
 	},
 	methods: {
 		// 选择学科
