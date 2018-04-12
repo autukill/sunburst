@@ -15,10 +15,21 @@ body {
 	text-align: center;
 }
 
+/***
+ * 选项
+ */
 .question-option-group{
 	margin-bottom: 1rem;
 	margin-top: 1rem;
 }
+
+/***
+ * 选项描述的行间距
+ */
+.question-option-group span.caption{
+	line-height: 1rem;
+}
+
 /**
  * 取消答题选项被选中的过渡效果
  */
