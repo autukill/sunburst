@@ -36,6 +36,14 @@ body {
 #paper .question-option>.check {
 	transition: none;
 	-webkit-transition: none;
+	margin-left: 0px;
+}
+
+/**
+ * 修正答题选项多行时 radio 被压扁
+ */
+.question-option{
+	display: -webkit-inline-box;
 }
 
 #paper .stub {
