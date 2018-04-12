@@ -107,7 +107,7 @@
 					<div class="container" style="margin-top: 1em;" id="paper-question-list-index">
 						<div class="grid" style="margin-top: 1em;">
 							<div class="row">
-								<div class="stub" :class="questionStatesColor(item)" v-for="(item,index) in questionStates" @click="handleJumpQuestion(index)"> {{index + 1}} </div>
+								<div class="stub" :class="questionStatesColor(item, index)" v-for="(item,index) in questionStates" @click="handleJumpQuestion(index)"> {{index + 1}} </div>
 							</div>
 						</div>
 					</div>
