@@ -46,6 +46,23 @@ new Vue({
 			 * 当前选择的试卷类型是测试卷的第几张的索引值
 			 */
 			testPaperIndex: -1,
+			/**
+			 * 题库下载中状态
+			 */
+			downloadState: true,
+			/**
+			 * 防止异步下载造成的问题
+			 */
+			downloadToken: 0,
+
+			/**
+			 * 已下载的文件数量
+			 */
+			downloaded: 0,
+			/**
+			 * 需要下载的文件数量
+			 */
+			downloadCount: 0,
 		}
 	},
 	computed: {
@@ -141,7 +158,7 @@ new Vue({
 	mounted: function() {
 		app.vue = this;
 		Metro.init();
-		$(".loadingHide").show(500);		
+		$(".loadingHide").show(500);
 	},
 	methods: {
 		// 选择学科
@@ -264,7 +281,7 @@ new Vue({
 		/**
 		 * 重置题目的回答状态
 		 */
-		resetQuestionStates: function(paper) {
+		resetQuestionStates: function() {
 			// 回答状态
 			var states = new Array(this.questions.length)
 			for(var i = 0; i < states.length; i++) {
@@ -292,11 +309,9 @@ new Vue({
 		/**
 		 * 开始答题
 		 */
-		beginTest: function(paper) {
+		beginTest: function() {
 			this.currentQuestionNumber = 0;
-			this.questions = paper.questions;
-			this.resetQuestionStates(paper);
-
+			this.resetQuestionStates();
 			this.resetQuestionPointDisplay()
 			this.showPaper = true;
 			$("body").addClass("eyeColor");
@@ -310,34 +325,81 @@ new Vue({
  * @param {Object} listview
  */
 function openPaper(node, listview) {
-	var subjectIndex = app.vue.currentSubjectIndex;
-	var paperTypeName = app.vue.paperTypeName = node.attr('data-type');
+	var vue = app.vue;
+	var subjectIndex = vue.currentSubjectIndex;
+	var subjectDirName = vue.subjects[subjectIndex].dirName;
+	var subjectPapers = vue.subjects[subjectIndex].papers
+	var subjectPaperCount = subjectPapers.length;
+	var paperTypeName = vue.paperTypeName = node.attr('data-type');
 
-	switch(paperTypeName) {
-		// 专项 单选题
-		case "single":
+	Metro.dialog.open('#downloadDialog');
+	vue.downloadState = true;
+	vue.downloadCount = 0;
+	vue.downloaded = 0;
 
-			break;
-			// 专项 多选题
-		case "multipe":
+	var thisDownloadToken = ++vue.downloadToken;
+	var paperVersion = app.config.version;
 
-			break;
-			// 专项 判断题		
-		case "tureOrFalse":
+	// 复习卷
+	if(paperTypeName === "default") {
+		vue.downloadCount = 1;
+		vue.downloaded = 0;
+		var paperIndex = vue.testPaperIndex = node.data("index");
+		var paperFileName = vue.subjects[subjectIndex].papers[paperIndex].file;
+		var path = "./papers/" + paperVersion + "/" + vue.subjects[subjectIndex].dirName + "/" + paperFileName;
+		var newPaper = new paper(paperVersion);
+		newPaper.load(path, function(paper) {
+			// 用户点了取消
+			if(thisDownloadToken != vue.downloadToken || !Metro.dialog.isOpen("#downloadDialog")) {
+				return;
+			}
+			vue.downloaded++;
+			vue.questions = paper.questions;
+			vue.downloadState = false;
+		});
+		return null;
+	}
 
-			break;
-			// 模拟测试
-		case "sim":
+	// 其他类型
+	vue.downloadCount = subjectPaperCount;
+	// 存放题库
+	var papers = new Array();
+	// 生成仿真试卷
+	var generatPaper = function() {
+		if(papers.length == 0) return;
+		switch(paperTypeName) {
+			case "single":
+				// 单选题 
+				break;
+			case "multipe":
+				// 多选题
 
-			break;
-			// 复习卷
-		default:
-			var paperIndex = app.vue.testPaperIndex = node.data("index");
-			var paperFileName = app.vue.subjects[subjectIndex].papers[paperIndex].file;
-			var path = "./papers/" + app.config.version + "/" + app.vue.subjects[subjectIndex].dirName + "/" + paperFileName;
-			var newPaper = new paper(app.config.version);
-			newPaper.load(path, app.vue.beginTest)
-			break;
+				break;
+			case "tureOrFalse":
+				// 判断题		
+				break;
+			case "sim":
+				// 模拟测试
+				break;
+		}
+	}
+	// 加载结果回调
+	var paperLoadedCallback = function(paper) {
+		if(thisDownloadToken != vue.downloadToken || !Metro.dialog.isOpen("#downloadDialog")) {
+			return;
+		}
+		papers.push(paper.questions)
+		vue.downloaded++;
+		if(vue.downloadCount == vue.downloaded) {
+			generatPaper();
+			vue.downloadState = false;
+		}
+	}
+	// 异步加载学科下全部试卷
+	for(var i = 0; i < subjectPaperCount; i++) {
+		var paperFileName = subjectPapers[i].file;
+		var path = "./papers/" + paperVersion + "/" + subjectDirName + "/" + paperFileName;
+		new paper(paperVersion).load(path, paperLoadedCallback);
 	}
 }
 
@@ -345,6 +407,7 @@ function openPaper(node, listview) {
  * 跳转首页
  */
 function openHome() {
+	Metro.dialog.close("#downloadDialog");
 	$("body").removeClass("eyeColor");
 	$("#home>div ul li.current-select").removeClass("current-select")
 	window.sunburst.vue.showPaper = false;

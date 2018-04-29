@@ -100,3 +100,8 @@ body {
 #home-paper-list>ul>li:nth-child(7)>span>span {
 	color: #fa6800!important;
 }
+
+#downloadDialog .button {
+	transition: none;
+	-webkit-transition: none;
+}
