@@ -63,6 +63,11 @@ new Vue({
 			 * 需要下载的文件数量
 			 */
 			downloadCount: 0,
+
+			/**
+			 * 答题选项序号
+			 */
+			optionIndex: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M']
 		}
 	},
 	computed: {

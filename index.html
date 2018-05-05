@@ -71,13 +71,13 @@
 								<label class="radio question-option" v-if="currentQuestionType!='多选题'">
 									<input type="radio" :id="'quesion-option-'+index" name="r1" />
 									<span class="check"></span>
-									<span class="caption">{{ item }}</span>
+									<span class="caption">{{optionIndex[index]+'.'+item}}</span>
 								</label>
 
 								<label class="checkbox question-option" v-else :for="'quesion-option-'+index">
 									<input type="checkbox" :id="'quesion-option-'+index">
 									<span class="check"></span>
-									<span class="caption">{{item}}</span>
+									<span class="caption">{{optionIndex[index]+'.'+item}}</span>
 								</label>
 							</div>
 						</div>
@@ -118,7 +118,7 @@
 				<div class="dialog-title">{{ downloadState? '试卷准备中,请稍等':'试卷准备好了,可以开始答题'}}</div>
 				<div class="dialog-content">试卷准备进度: {{downloadProgress}}</div>
 				<div class="dialog-actions">
-					<button class="button js-dialog-close" v-bind:class="{success:!downloadState}" @click="beginTest" :disabled="downloadState" >开始答题</button>
+					<button class="button js-dialog-close" v-bind:class="{success:!downloadState}" @click="beginTest" :disabled="downloadState">开始答题</button>
 					<button class="button primary js-dialog-close">取消</button>
 				</div>
 			</div>

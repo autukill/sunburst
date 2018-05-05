@@ -120,7 +120,7 @@ function paper(_version) {
 			// 选项列表
 			var value = optionReg.exec(targetData);
 			if(value != null) {
-				obj.options.push(value[0]);
+				obj.options.push(value[1]);
 				continue;
 			}
 
