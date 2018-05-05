@@ -153,7 +153,12 @@ new Vue({
 			if(this.questions.length == 0) return(new Array());
 			return this.questions[this.currentQuestionNumber].point;
 		},
-
+		/**
+		 * 试卷下载进度
+		 */
+		downloadProgress: function(){
+			return (this.downloaded/this.downloadCount*100).toFixed(0) + "%";
+		}
 	},
 	mounted: function() {
 		app.vue = this;
