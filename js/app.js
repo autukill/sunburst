@@ -404,7 +404,6 @@ function openPaper(node, listview) {
 				break;
 		}
 		vue.questions = questions;
-		console.log(questions)
 		
 	}
 	// 加载结果回调
