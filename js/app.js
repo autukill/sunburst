@@ -364,24 +364,43 @@ function openPaper(node, listview) {
 	vue.downloadCount = subjectPaperCount;
 	// 存放题库
 	var papers = new Array();
-	// 生成仿真试卷
+	// 生成仿真试卷和专项测试
 	var generatPaper = function() {
 		if(papers.length == 0) return;
+		var questions = new Array();
 		switch(paperTypeName) {
 			case "single":
 				// 单选题 
+				for(var i = 0; i < 60; i++){
+					var targetPaper = papers[Metro.utils.random(0, papers.length-1)];
+					questions.push(targetPaper[i]);
+				}
 				break;
 			case "multipe":
 				// 多选题
-
+				for(var i = 60; i < 70; i++){
+					var targetPaper = papers[Metro.utils.random(0, papers.length-1)];
+					questions.push(targetPaper[i]);
+				}
 				break;
 			case "tureOrFalse":
-				// 判断题		
+				// 判断题	
+				for(var i = 70; i < 100; i++){
+					var targetPaper = papers[Metro.utils.random(0, papers.length-1)];
+					questions.push(targetPaper[i]);
+				}
 				break;
 			case "sim":
 				// 模拟测试
+				for(var i = 0; i < 100; i++){
+					var targetPaper = papers[Metro.utils.random(0, papers.length-1)];
+					questions.push(targetPaper[i]);
+				}
 				break;
 		}
+		vue.questions = questions;
+		console.log(questions)
+		
 	}
 	// 加载结果回调
 	var paperLoadedCallback = function(paper) {
