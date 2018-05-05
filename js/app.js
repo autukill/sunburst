@@ -156,8 +156,8 @@ new Vue({
 		/**
 		 * 试卷下载进度
 		 */
-		downloadProgress: function(){
-			return (this.downloaded/this.downloadCount*100).toFixed(0) + "%";
+		downloadProgress: function() {
+			return(this.downloaded / this.downloadCount * 100).toFixed(0) + "%";
 		}
 	},
 	mounted: function() {
@@ -177,6 +177,8 @@ new Vue({
 				this.currentQuestionNumber--;
 				this.resetQuestionPointDisplay();
 				this.checkUserSelect();
+			} else {
+				Metro.toast.create("已经到第一题了")
 			}
 		},
 		// 下一题
@@ -186,6 +188,8 @@ new Vue({
 				this.currentQuestionNumber++;
 				this.resetQuestionPointDisplay();
 				this.checkUserSelect();
+			} else {
+				Metro.toast.create("这是最后一道题")
 			}
 		},
 		//  题目导航
@@ -376,35 +380,35 @@ function openPaper(node, listview) {
 		switch(paperTypeName) {
 			case "single":
 				// 单选题 
-				for(var i = 0; i < 60; i++){
-					var targetPaper = papers[Metro.utils.random(0, papers.length-1)];
+				for(var i = 0; i < 60; i++) {
+					var targetPaper = papers[Metro.utils.random(0, papers.length - 1)];
 					questions.push(targetPaper[i]);
 				}
 				break;
 			case "multipe":
 				// 多选题
-				for(var i = 60; i < 70; i++){
-					var targetPaper = papers[Metro.utils.random(0, papers.length-1)];
+				for(var i = 60; i < 70; i++) {
+					var targetPaper = papers[Metro.utils.random(0, papers.length - 1)];
 					questions.push(targetPaper[i]);
 				}
 				break;
 			case "tureOrFalse":
 				// 判断题	
-				for(var i = 70; i < 100; i++){
-					var targetPaper = papers[Metro.utils.random(0, papers.length-1)];
+				for(var i = 70; i < 100; i++) {
+					var targetPaper = papers[Metro.utils.random(0, papers.length - 1)];
 					questions.push(targetPaper[i]);
 				}
 				break;
 			case "sim":
 				// 模拟测试
-				for(var i = 0; i < 100; i++){
-					var targetPaper = papers[Metro.utils.random(0, papers.length-1)];
+				for(var i = 0; i < 100; i++) {
+					var targetPaper = papers[Metro.utils.random(0, papers.length - 1)];
 					questions.push(targetPaper[i]);
 				}
 				break;
 		}
 		vue.questions = questions;
-		
+
 	}
 	// 加载结果回调
 	var paperLoadedCallback = function(paper) {
