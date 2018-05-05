@@ -115,8 +115,8 @@
 			</div>
 
 			<div id="downloadDialog" data-role="dialog" class="dialog mx-auto mt-4 mb-4">
-				<div class="dialog-title">{{ downloadState? '试卷准备中,请稍等':'试卷准备好了,可以开始答题'}} ( {{ downloaded }} / {{ downloadCount }} )</div>
-				<div class="dialog-content"></div>
+				<div class="dialog-title">{{ downloadState? '试卷准备中,请稍等':'试卷准备好了,可以开始答题'}}</div>
+				<div class="dialog-content">试卷准备进度: {{downloadProgress}}</div>
 				<div class="dialog-actions">
 					<button class="button js-dialog-close" v-bind:class="{success:!downloadState}" @click="beginTest" :disabled="downloadState" >开始答题</button>
 					<button class="button primary js-dialog-close">取消</button>
