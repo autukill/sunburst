@@ -90,15 +90,8 @@ new Vue({
 		 */
 		currentQuestionType: function() {
 			if (this.questions.length == 0) return "";
-
-			var target = this.questions[this.currentQuestionNumber];			 
+			var target = this.questions[this.currentQuestionNumber];
 			return target.type
-			// if (target["key"].length >= 2) {
-			// 	return "多选题";
-			// } else if (target["options"][0] == "正确") {
-			// 	return "判断题";
-			// }
-			// return "单选题";
 		},
 
 		/**
@@ -421,21 +414,20 @@ function openPaper(node, listview) {
 	vue.downloaded = 0;
 
 	var thisDownloadToken = ++vue.downloadToken;
-	var paperVersion = app.config.version;
 
 	// 专项复习
 	if (paperTypeName !== "模拟") {
 		vue.downloadCount = 1;
 		vue.downloaded = 0;
 		var path = "./papers/" + subjectDirName + "/" + paperTypeName + ".txt";
-		var newPaper = new paper(paperVersion);
+		var newPaper = new paper(paperTypeName);
 		newPaper.load(path, function(paper) {
 			// 用户点了取消
 			if (thisDownloadToken != vue.downloadToken || !Metro.dialog.isOpen("#downloadDialog")) {
 				return;
 			}
 			vue.downloaded++;
-			var questions = new Array();
+			var questions = [];			 
 			randomQuestions(paper.questions, paperTypeName, paper.questions.length, questions)
 			vue.questions = questions;
 			vue.downloadState = false;
@@ -452,7 +444,7 @@ function openPaper(node, listview) {
 	 */
 	var generatPaper = function() {
 		if (papers.length == 0) return;
-		var questions = new Array();
+		var questions = [];
 
 		// 随机 60 个 单选 
 		randomQuestions(papers["单选"], "单选", 60, questions)
