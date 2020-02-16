@@ -8,6 +8,11 @@ function question() {
 	this.num = 0;
 
 	/**
+	 * 题型: 单选 多选 判断
+	 */
+	this.type = ""
+
+	/**
 	 * 题目描述
 	 */
 	this.desc = "";
@@ -113,6 +118,7 @@ function paper(questionType) {
 			// 新的题目
 			if (obj == null) {
 				obj = new question();
+				obj.type = self.questionType
 				var value = headReg.exec(targetData);
 				if (value != null) {
 					obj.num = value[1];

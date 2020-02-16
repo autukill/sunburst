@@ -35,7 +35,6 @@ new Vue({
 			optionSelected: new Array(),
 			/**
 			 * 试卷类型
-			 * default - 测试卷
 			 * single - 专项 单选
 			 * multipe - 专项 多选
 			 * tureOrFalse - 专项 判断
@@ -92,13 +91,14 @@ new Vue({
 		currentQuestionType: function() {
 			if (this.questions.length == 0) return "";
 
-			var target = this.questions[this.currentQuestionNumber];
-			if (target["key"].length >= 2) {
-				return "多选题";
-			} else if (target["options"][0] == "错") {
-				return "判断题";
-			}
-			return "单选题";
+			var target = this.questions[this.currentQuestionNumber];			 
+			return target.type
+			// if (target["key"].length >= 2) {
+			// 	return "多选题";
+			// } else if (target["options"][0] == "正确") {
+			// 	return "判断题";
+			// }
+			// return "单选题";
 		},
 
 		/**
@@ -323,7 +323,7 @@ new Vue({
  * @param {Object} count
  * @param {Object} questions
  */
-function randomQuestions(currentPaper, count, questions) {
+function randomQuestions(currentPaper, type, count, questions) {
 	var currentQuestionsIndex = []
 	while (currentQuestionsIndex.length < count) {
 		var questionIndex = Metro.utils.random(0, currentPaper.length - 1)
@@ -334,7 +334,73 @@ function randomQuestions(currentPaper, count, questions) {
 	}
 	for (var i = 0; i < currentQuestionsIndex.length; i++) {
 		var question = currentPaper[currentQuestionsIndex[i]];
+
+		if (type != "判断")
+			randomQuestionOption(question)
+
 		questions.push(question);
+	}
+}
+
+/**
+ * 打乱选项
+ * @param {Object} question
+ */
+function randomQuestionOption(question) {
+	// 正确选项的索引位置
+	var keyCount = question.key.length;
+	var optionCount = question.options.length;
+	// 正确答案的个数与选项个数相同, 无需交互
+	var isKeysNoChange = keyCount === optionCount
+
+	var keysIndex = []
+	for (var i = 0; i < keyCount; i++) {
+		keysIndex.push(question.key[i].charCodeAt() - 65)
+	}
+
+	for (var j = 0; j < optionCount; j++) {
+		var currentIndex = j;
+		var nextIndex = Metro.utils.random(0, optionCount - 1);
+		if (nextIndex === currentIndex) {
+			continue
+		}
+		// 当前遍历的选项如果是正确选项, 检出索引位置
+		var currentIndexAtKeysIndex = keysIndex.indexOf(currentIndex)
+		var nextIndexAtKeysIndex = keysIndex.indexOf(nextIndex)
+
+		// 交换选项内容
+		var _temp = question.options[currentIndex]
+		question.options[currentIndex] = question.options[nextIndex]
+		question.options[nextIndex] = _temp
+
+		// 更新正确答案
+		// 情况0: 正确答案的个数与选项个数相同, 无需交互
+		if (isKeysNoChange) {
+			continue
+		}
+		// 情况1: 都是正确选项
+		if (currentIndexAtKeysIndex > -1 && nextIndexAtKeysIndex > -1) {
+			continue
+		}
+		// 情况2: 当前索引被交换
+		if (currentIndexAtKeysIndex > -1 && nextIndexAtKeysIndex === -1) {
+			keysIndex[currentIndexAtKeysIndex] = nextIndex
+		}
+		// 情况2: 随机索引被交换
+		if (currentIndexAtKeysIndex === -1 && nextIndexAtKeysIndex > -1) {
+			keysIndex[nextIndexAtKeysIndex] = currentIndex
+		}
+	}
+
+	// 正确答案的个数与选项个数相同, 无需交互
+	// 对答案排序
+	if (!isKeysNoChange) {
+		var newKey = []
+		for (var k = 0; k < keysIndex.length; k++) {
+			newKey.push(String.fromCharCode(keysIndex[k] + 65))
+		}
+		newKey.sort()
+		question.key = newKey
 	}
 }
 
@@ -370,7 +436,7 @@ function openPaper(node, listview) {
 			}
 			vue.downloaded++;
 			var questions = new Array();
-			randomQuestions(paper.questions, paper.questions.length, questions)
+			randomQuestions(paper.questions, paperTypeName, paper.questions.length, questions)
 			vue.questions = questions;
 			vue.downloadState = false;
 		});
@@ -389,11 +455,11 @@ function openPaper(node, listview) {
 		var questions = new Array();
 
 		// 随机 60 个 单选 
-		randomQuestions(papers["单选"], 60, questions)
+		randomQuestions(papers["单选"], "单选", 60, questions)
 		// 随机 10 个 多选
-		randomQuestions(papers["多选"], 10, questions)
+		randomQuestions(papers["多选"], "多选", 10, questions)
 		// 随机 30 个 判断
-		randomQuestions(papers["判断"], 30, questions)
+		randomQuestions(papers["判断"], "判断", 30, questions)
 
 		vue.questions = questions;
 	}
