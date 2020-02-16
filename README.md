@@ -14,6 +14,6 @@
 
 ## 演示地址
 
-<https://autumn.coding.me/sunburst>
+国内: <https://autukill.gitee.io/exam/>
 
-<https://autukill.github.io/sunburst>
+国外: <https://autumn.coding.me/sunburst>
