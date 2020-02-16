@@ -91,7 +91,8 @@ new Vue({
 		currentQuestionType: function() {
 			if (this.questions.length == 0) return "";
 			var target = this.questions[this.currentQuestionNumber];
-			return target.type
+
+			return target.type || ""
 		},
 
 		/**
@@ -182,7 +183,16 @@ new Vue({
 		},
 		// 提交
 		handleSubmitPaper: function(e) {
-			alert("提交试卷")
+			this.saveUserSelect();
+			this.resetQuestionPointDisplay();
+			var bingoCount = 0
+			for (var i = 0; i < this.questions.length; i++) {
+				if (this.questionStates[i] === 2) {
+					bingoCount++
+				}
+			}
+			alert("共" + this.questions.length + "道题，正确率: " + Math.round(bingoCount / this.questions.length * 10000) / 100 +
+				"%")
 			openHome();
 		},
 		// Check 被用户选中的选项
@@ -427,7 +437,7 @@ function openPaper(node, listview) {
 				return;
 			}
 			vue.downloaded++;
-			var questions = [];			 
+			var questions = [];
 			randomQuestions(paper.questions, paperTypeName, paper.questions.length, questions)
 			vue.questions = questions;
 			vue.downloadState = false;
