@@ -68,7 +68,7 @@
 						</div>
 						<div class="question-option-group">
 							<div class="form-group" v-for="(item, index) in currentQuestionOptions">
-								<label class="radio question-option" v-if="currentQuestionType!='多选题'">
+								<label class="radio question-option" v-if="currentQuestionType!='多选'">
 									<input type="radio" :id="'quesion-option-'+index" name="r1" />
 									<span class="check"></span>
 									<span class="caption">{{optionIndex[index]+'.'+item}}</span>
