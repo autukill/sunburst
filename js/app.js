@@ -393,7 +393,7 @@ function randomQuestionOption(question) {
 			newKey.push(String.fromCharCode(keysIndex[k] + 65))
 		}
 		newKey.sort()
-		question.key = newKey
+		question.key = newKey.join("")
 	}
 }
 
