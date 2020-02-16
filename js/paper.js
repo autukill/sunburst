@@ -8,6 +8,11 @@ function question() {
 	this.num = 0;
 
 	/**
+	 * 题型: 单选 多选 判断
+	 */
+	this.type = ""
+
+	/**
 	 * 题目描述
 	 */
 	this.desc = "";
@@ -30,25 +35,24 @@ function question() {
 
 /**
  * 试卷
- * @param {int} _version
  */
-function paper(_version) {
+function paper(questionType) {
 	var self = this;
-
-	/**
-	 * 版本
-	 */
-	this.version = _version;
-
+	
+	// 题型
+	this.questionType = questionType;
+	
 	/**
 	 * 加载文件
+	 * @param {Object} filePath
+	 * @param {Object} callback
 	 */
 	this.load = function(filePath, callback) {
 		var fileMd5 = Metro.utils.md5(filePath);
 		var data = localStorage.getItem(fileMd5);
-		if(data != null) {
+		if (data != null) {
 			self.questions = JSON.parse(data);
-			if(callback) {
+			if (callback) {
 				callback(self)
 			}
 			return;
@@ -62,7 +66,7 @@ function paper(_version) {
 
 				localStorage.setItem(fileMd5, JSON.stringify(self.questions));
 
-				if(callback) {
+				if (callback) {
 					callback(self)
 				}
 			}
@@ -75,7 +79,7 @@ function paper(_version) {
 	this.questions;
 
 	/**
-	 * 解析数据
+	 * 解析本文数据
 	 * @param {string[]} _data
 	 * @return {question[]}
 	 */
@@ -83,23 +87,28 @@ function paper(_version) {
 		var datas = _data.split("\n");
 		var questions = new Array();
 
+		// 题号
 		var headReg = /^(\d+?)\.(.+)/;
+		// 选项
 		var optionReg = /^[A-Z]\.(.+)/;
-		var keyReg = /^Answer.([A-Z]+)/;
-		var pointReg = /^答案要点.(.+)/;
+		// 答案
+		var keyReg = /^Answer:([A-Z]+)/;
+
+		var pointToken = "题库练习知识点：";
+		var descToken = "题目内容：" 
 
 		// 用于存放题目解析出的数据
 		var obj = null;
-		for(var index = 0; index < datas.length; index++) {
+		for (var index = 0; index < datas.length; index++) {
 			// 一行字符串
 			var targetData = datas[index];
 			// 判断空行
 			var dataEmpty = targetData.length == 0 || targetData.charCodeAt(0) == 13;
 			// 当前题目解析完成的状态
-			var objClose = dataEmpty && (obj != null);
+			var objClose = dataEmpty && (obj != null) && (obj.key !== "");
 
-			if(dataEmpty) {
-				if(objClose) {
+			if (dataEmpty) {
+				if (objClose) {
 					questions.push(obj)
 					obj = null;
 				}
@@ -107,36 +116,46 @@ function paper(_version) {
 			}
 
 			// 新的题目
-			if(obj == null) {
+			if (obj == null) {
 				obj = new question();
+				obj.type = self.questionType
 				var value = headReg.exec(targetData);
-				if(value != null) {
+				if (value != null) {
 					obj.num = value[1];
-					obj.desc = value[2];
+					var desc = value[2]
+					// 题号后面的内容是题库练习知识点
+					if (desc.indexOf(pointToken) > -1) {
+						obj.point.push(desc)
+					} else {
+						var questionDescIndex = desc.indexOf(descToken)
+						if (questionDescIndex > -1) {
+							obj.desc = desc.slice(descToken.length)
+						} else {
+							obj.desc = desc;
+						}
+					}
 				}
 				continue;
 			}
 
+			// 题目内容
+			var descTokenIndex = targetData.indexOf(descToken)
+			if (descTokenIndex > -1) {
+				obj.desc = targetData.slice(descToken.length)
+			}
+
 			// 选项列表
 			var value = optionReg.exec(targetData);
-			if(value != null) {
+			if (value != null) {
 				obj.options.push(value[1]);
 				continue;
 			}
 
 			// 答案
 			var value = keyReg.exec(targetData);
-			if(value != null) {
+			if (value != null) {
 				obj.key = value[1];
 				continue;
-			}
-
-			// 答案要点
-			var value = pointReg.exec(targetData);
-			if(value != null) {
-				obj.point.push(value[1]);
-			} else {
-				obj.point.push(targetData);
 			}
 		}
 

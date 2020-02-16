@@ -16,33 +16,33 @@
 
 	<body>
 		<div data-role="appbar" style="background-color: #0078d7;" class="loadingHide">
-			<a href="javascript:openHome()" class="brand text-leader" style="color:#f5f5f5;"> 2018 年南方电网安规复习系统 </a>
+			<a href="javascript:openHome()" class="brand text-leader" style="color:#f5f5f5;"> 2019 年南方电网安规复习系统 </a>
 		</div>
 		<div id="app" class="loadingHide">
 			<div id="home" class="container-fluid" v-show="!showPaper">
 				<div class="container hero">
 					<ul id="subjects" class="tabs-expand-md" data-role="tabs" @click="handleSubjectTabClick">
 						<li v-once v-for="(subject,index) in subjects">
-							<a href="">{{subject.name}}</a>
+							<a href="">{{subject}}</a>
 						</li>
 					</ul>
 					<div class="border bd-default no-border-top p-2">
 						<ul id="home-paper-listview" data-role="listview" data-view="icons-medium" data-on-node-click="openPaper">
-							<li id="home-paper-list" data-caption="复习卷">
+							<!-- <li id="home-paper-list" data-caption="复习卷">
 								<ul>
 									<li data-type="default" :data-index="index" v-for="(value,index) in config.paperNames" v-show="index < subjects[currentSubjectIndex].papers.length" data-icon="<span class='mif-folder'>" :data-caption="value"></li>
 								</ul>
-							</li>
+							</li> -->
 							<li data-caption="专项复习">
 								<ul>
-									<li data-type="single" data-icon="<span class='mif-folder-plus fg-red'></span>" data-caption="单选题"></li>
-									<li data-type="multipe" data-icon="<span class='mif-folder-plus fg-green'></span>" data-caption="多选题"></li>
-									<li data-type="tureOrFalse" data-icon="<span class='mif-folder-plus fg-blue'></span>" data-caption="判断题"></li>
+									<li data-type="单选" data-icon="<span class='mif-folder-plus fg-red'></span>" data-caption="单选题"></li>
+									<li data-type="多选" data-icon="<span class='mif-folder-plus fg-green'></span>" data-caption="多选题"></li>
+									<li data-type="判断" data-icon="<span class='mif-folder-plus fg-blue'></span>" data-caption="判断题"></li>
 								</ul>
 							</li>
 							<li data-caption="模拟测试">
 								<ul>
-									<li data-type="sim" data-icon="<span class='mif-folder-special fg-blue'></span>" data-caption="仿真模拟"></li>
+									<li data-type="模拟" data-icon="<span class='mif-folder-special fg-blue'></span>" data-caption="仿真模拟"></li>
 								</ul>
 							</li>
 						</ul>
@@ -54,7 +54,7 @@
 				<div class="container hero">
 					<blockquote class="bd-green">
 						<div class="h6">复习测试</div>
-						<div class="small">题源：{{ currentQuestionSources }} </div>
+						<!-- <div class="small">题源：{{ currentQuestionSources }} </div> -->
 						<div class="small">科目：{{ currentSubjectName }} </div>
 					</blockquote>
 
@@ -88,13 +88,14 @@
 									<button class="button secondary" @click="handleLastQuestion">上一题</button>
 								</div>
 								<div class="cell">
-									<button class="button info" id="quesiton-point-toggle">答案要点</button>
+									<button class="button info" id="quesiton-point-toggle">查看答案</button>
 									<button class="button warning" @click="handleSubmitPaper">交卷</button>
 								</div>
 							</div>
 						</div>
 						<div class="form-group">
-							<div id="question-point" class="" data-role="collapse" data-toggle-element="#quesiton-point-toggle" data-collapsed="true">
+							<div id="question-point" class="" data-role="collapse" data-toggle-element="#quesiton-point-toggle"
+							 data-collapsed="true">
 								<p>正确答案：{{currentQuestionKey}}</p>
 								<p v-for="item in currentQuestionPoint"> {{item}}</p>
 							</div>
@@ -107,7 +108,8 @@
 					<div class="container" style="margin-top: 1em;" id="paper-question-list-index">
 						<div class="grid" style="margin-top: 1em;">
 							<div class="row">
-								<div class="stub" :class="questionStatesColor(item, index)" v-for="(item,index) in questionStates" @click="handleJumpQuestion(index)"> {{index + 1}} </div>
+								<div class="stub" :class="questionStatesColor(item, index)" v-for="(item,index) in questionStates" @click="handleJumpQuestion(index)">
+									{{index + 1}} </div>
 							</div>
 						</div>
 					</div>
