@@ -2,7 +2,7 @@
 <html>
 
 	<head>
-		<meta charset="utf-8" />
+		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		<meta name="author" content="Autukill">
 		<meta name="description" content="南方电网安规考试复习">
@@ -10,39 +10,34 @@
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="metro4:init" content="false">
 		<title>南方电网安规考试复习系统</title>
-		<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/metro/4.1.2/css/metro-all.min.css" />
-		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<link type="text/css" href="https://cdn.bootcss.com/metro/4.1.2/css/metro-all.min.css" rel="stylesheet">
+		<link type="text/css" href="css/app.css" rel="stylesheet">
 	</head>
 
 	<body>
-		<div data-role="appbar" style="background-color: #0078d7;" class="loadingHide">
-			<a href="javascript:openHome()" class="brand text-leader" style="color:#f5f5f5;"> 2019 年南方电网安规复习系统 </a>
+		<div class="loadingHide" data-role="appbar" style="background-color: #0078d7;">
+			<a class="brand text-leader" href="javascript:openHome()" style="color:#f5f5f5;"> 2020 年南方电网安规复习系统 </a>
 		</div>
 		<div id="app" class="loadingHide">
-			<div id="home" class="container-fluid" v-show="!showPaper">
+			<div v-show="!showPaper" id="home" class="container-fluid">
 				<div class="container hero">
-					<ul id="subjects" class="tabs-expand-md" data-role="tabs" @click="handleSubjectTabClick">
-						<li v-once v-for="(subject,index) in subjects">
+					<ul id="subjects" class="tabs-expand-md" @click="handleSubjectTabClick" data-role="tabs">
+						<li v-for="(subject,index) in subjects" v-once>
 							<a href="">{{subject}}</a>
 						</li>
 					</ul>
 					<div class="border bd-default no-border-top p-2">
-						<ul id="home-paper-listview" data-role="listview" data-view="icons-medium" data-on-node-click="openPaper">
-							<!-- <li id="home-paper-list" data-caption="复习卷">
-								<ul>
-									<li data-type="default" :data-index="index" v-for="(value,index) in config.paperNames" v-show="index < subjects[currentSubjectIndex].papers.length" data-icon="<span class='mif-folder'>" :data-caption="value"></li>
-								</ul>
-							</li> -->
+						<ul id="home-paper-listview" data-on-node-click="openPaper" data-role="listview" data-view="icons-medium">
 							<li data-caption="专项复习">
 								<ul>
-									<li data-type="单选" data-icon="<span class='mif-folder-plus fg-red'></span>" data-caption="单选题"></li>
-									<li data-type="多选" data-icon="<span class='mif-folder-plus fg-green'></span>" data-caption="多选题"></li>
-									<li data-type="判断" data-icon="<span class='mif-folder-plus fg-blue'></span>" data-caption="判断题"></li>
+									<li data-caption="单选题" data-icon="<span class='mif-folder-plus fg-red'></span>" data-type="单选"></li>
+									<li data-caption="多选题" data-icon="<span class='mif-folder-plus fg-green'></span>" data-type="多选"></li>
+									<li data-caption="判断题" data-icon="<span class='mif-folder-plus fg-blue'></span>" data-type="判断"></li>
 								</ul>
 							</li>
 							<li data-caption="模拟测试">
 								<ul>
-									<li data-type="模拟" data-icon="<span class='mif-folder-special fg-blue'></span>" data-caption="仿真模拟"></li>
+									<li data-caption="仿真模拟" data-icon="<span class='mif-folder-special fg-blue'></span>" data-type="模拟"></li>
 								</ul>
 							</li>
 						</ul>
@@ -50,11 +45,10 @@
 				</div>
 			</div>
 
-			<div id="paper" class="container-fluid" v-show="showPaper">
+			<div v-show="showPaper" id="paper" class="container-fluid">
 				<div class="container hero">
 					<blockquote class="bd-green">
 						<div class="h6">复习测试</div>
-						<!-- <div class="small">题源：{{ currentQuestionSources }} </div> -->
 						<div class="small">科目：{{ currentSubjectName }} </div>
 					</blockquote>
 
@@ -67,15 +61,15 @@
 							<div class="h7 indent">{{ currentQuestionDesc }}</div>
 						</div>
 						<div class="question-option-group">
-							<div class="form-group" v-for="(item, index) in currentQuestionOptions">
-								<label class="radio question-option" v-if="currentQuestionType!='多选'">
-									<input type="radio" :id="'quesion-option-'+index" name="r1" />
+							<div v-for="(item, index) in currentQuestionOptions" class="form-group">
+								<label v-if="currentQuestionType!='多选'" class="radio question-option">
+									<input :id="'quesion-option-'+index" name="r1" type="radio">
 									<span class="check"></span>
 									<span class="caption">{{optionIndex[index]+'.'+item}}</span>
 								</label>
 
-								<label class="checkbox question-option" v-else :for="'quesion-option-'+index">
-									<input type="checkbox" :id="'quesion-option-'+index">
+								<label v-else :for="'quesion-option-'+index" class="checkbox question-option">
+									<input :id="'quesion-option-'+index" type="checkbox">
 									<span class="check"></span>
 									<span class="caption">{{optionIndex[index]+'.'+item}}</span>
 								</label>
@@ -88,14 +82,13 @@
 									<button class="button secondary" @click="handleLastQuestion">上一题</button>
 								</div>
 								<div class="cell">
-									<button class="button info" id="quesiton-point-toggle">查看答案</button>
+									<button id="quesiton-point-toggle" class="button info">查看答案</button>
 									<button class="button warning" @click="handleSubmitPaper">交卷</button>
 								</div>
 							</div>
 						</div>
 						<div class="form-group">
-							<div id="question-point" class="" data-role="collapse" data-toggle-element="#quesiton-point-toggle"
-							 data-collapsed="true">
+							<div id="question-point" class data-collapsed="true" data-role="collapse" data-toggle-element="#quesiton-point-toggle">
 								<p>正确答案：{{currentQuestionKey}}</p>
 								<p v-for="item in currentQuestionPoint"> {{item}}</p>
 							</div>
@@ -105,10 +98,10 @@
 					<blockquote class="bd-green">
 						<div class="h6">题目索引</div>
 					</blockquote>
-					<div class="container" style="margin-top: 1em;" id="paper-question-list-index">
+					<div id="paper-question-list-index" class="container" style="margin-top: 1em;">
 						<div class="grid" style="margin-top: 1em;">
 							<div class="row">
-								<div class="stub" :class="questionStatesColor(item, index)" v-for="(item,index) in questionStates" @click="handleJumpQuestion(index)">
+								<div v-for="(item,index) in questionStates" :class="questionStatesColor(item, index)" class="stub" @click="handleJumpQuestion(index)">
 									{{index + 1}} </div>
 							</div>
 						</div>
@@ -116,11 +109,11 @@
 				</div>
 			</div>
 
-			<div id="downloadDialog" data-role="dialog" class="dialog mx-auto mt-4 mb-4">
+			<div id="downloadDialog" class="dialog mx-auto mt-4 mb-4" data-role="dialog">
 				<div class="dialog-title">{{ downloadState? '试卷准备中,请稍等':'试卷准备好了,可以开始答题'}}</div>
 				<div class="dialog-content">试卷准备进度: {{downloadProgress}}</div>
 				<div class="dialog-actions">
-					<button class="button js-dialog-close" v-bind:class="{success:!downloadState}" @click="beginTest" :disabled="downloadState">开始答题</button>
+					<button v-bind:class="{success:!downloadState}" :disabled="downloadState" class="button js-dialog-close" @click="beginTest">开始答题</button>
 					<button class="button primary js-dialog-close">取消</button>
 				</div>
 			</div>

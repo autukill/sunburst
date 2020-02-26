@@ -309,6 +309,10 @@ new Vue({
 		 * 开始答题
 		 */
 		beginTest: function() {
+			if (this.questions.length === 0) {
+				alert("所选类型的试卷没有题库,请选择其他")
+				return
+			}
 			this.currentQuestionNumber = 0;
 			this.resetQuestionStates();
 			this.resetQuestionPointDisplay()
@@ -327,6 +331,9 @@ new Vue({
  * @param {Object} questions
  */
 function randomQuestions(currentPaper, type, count, questions) {
+	if (count > currentPaper.length) {
+		count = currentPaper.length
+	}
 	var currentQuestionsIndex = []
 	while (currentQuestionsIndex.length < count) {
 		var questionIndex = Metro.utils.random(0, currentPaper.length - 1)
