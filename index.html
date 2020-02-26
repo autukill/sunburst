@@ -58,20 +58,20 @@
 								<code class="info">{{ currentProgress }}</code>
 								<code class="info">{{ currentQuestionType }}</code>
 							</div>
-							<div class="indent" style="font-size: 20px">{{ currentQuestionDesc }}</div>
+							<div class="indent" style="font-size: 20px; line-height: 40px">{{ currentQuestionDesc }}</div>
 						</div>
 						<div class="question-option-group">
 							<div v-for="(item, index) in currentQuestionOptions" class="form-group">
 								<label v-if="currentQuestionType!='多选'" class="radio question-option">
 									<input :id="'quesion-option-'+index" name="r1" type="radio">
 									<span class="check"></span>
-									<span class="caption" style="font-size: 20px;">{{optionIndex[index]+'.'+item}}</span>
+									<span class="caption" style="font-size: 20px; line-height: 30px;">{{optionIndex[index]+'.'+item}}</span>
 								</label>
 
 								<label v-else :for="'quesion-option-'+index" class="checkbox question-option">
 									<input :id="'quesion-option-'+index" type="checkbox">
 									<span class="check"></span>
-									<span class="caption" style="font-size: 20px;">{{optionIndex[index]+'.'+item}}</span>
+									<span class="caption" style="font-size: 20px; line-height: 37px;">{{optionIndex[index]+'.'+item}}</span>
 								</label>
 							</div>
 						</div>
