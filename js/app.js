@@ -91,8 +91,10 @@ new Vue({
 		currentQuestionType: function() {
 			if (this.questions.length == 0) return "";
 			var target = this.questions[this.currentQuestionNumber];
-
-			return target.type || ""
+			if(target) {
+				return target.type || ""
+			}
+			return ""
 		},
 
 		/**

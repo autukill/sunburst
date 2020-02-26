@@ -48,7 +48,7 @@ function paper(questionType) {
 	 * @param {Object} callback
 	 */
 	this.load = function(filePath, callback) {
-		var fileMd5 = Metro.utils.md5(filePath);
+		var fileMd5 = Metro.utils.md5(filePath + "2020");
 		var data = localStorage.getItem(fileMd5);
 		if (data != null) {
 			self.questions = JSON.parse(data);
@@ -110,6 +110,7 @@ function paper(questionType) {
 			if (dataEmpty) {
 				if (objClose) {
 					questions.push(obj)
+					console.log("push", JSON.stringify(obj))
 					obj = null;
 				}
 				continue;
@@ -117,6 +118,7 @@ function paper(questionType) {
 
 			// 新的题目
 			if (obj == null) {
+				console.log("new",  questions.length)
 				obj = new question();
 				obj.type = self.questionType
 				var value = headReg.exec(targetData);
@@ -158,7 +160,13 @@ function paper(questionType) {
 				continue;
 			}
 		}
-
+		
+		//  判断最后一道题
+		if((obj != null) && (obj.key !== "")){
+			questions.push(obj)
+			obj = null;
+		}
+		
 		self.questions = questions;
 	}
 }
