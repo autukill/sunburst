@@ -41,6 +41,27 @@ body {
 }
 
 
+.actions .button{
+	width: 100px;
+}
+
+@media screen and (max-width: 520px) {
+	.actions {
+		flex-direction: column;
+	}
+	
+	.actions .cell {
+		display: flex;
+		justify-content: space-around;
+	}
+	
+	.actions .button {
+		margin: 5px 0px;
+	}
+}
+
+	
+
 /***
  * 选项描述的行间距
  */
