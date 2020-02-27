@@ -2,6 +2,8 @@ window.sunburst = window.sunburst ? window.sunburst : {};
 var app = window.sunburst;
 app.vue = null;
 
+localStorage.clear()
+
 new Vue({
 	el: "#app",
 	data: function() {
