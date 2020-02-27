@@ -5,17 +5,37 @@ body {
 	flex-direction: column;
 }
 
+
 .loadingHide {
 	display: none;
 }
 
+.scroll-y {
+	overflow-y: auto;
+}
+
+.app-container {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	overflow: hidden;
+}
+
 #app {
 	display: flex;
+	flex-direction: column;
 	flex: 1;
 }
 
 #cnzz_stat_icon_1278643045 {
-	text-align: center;
+	flex: 0 0 12px;
+	text-align: right;
+	margin-right: 12px;
+	font-size: 12px;
+}
+
+#cnzz_stat_icon_1278643045>a:first-child {
+	display: none;
 }
 
 .eyeColor {
@@ -85,15 +105,15 @@ body {
  */
 
 #home-paper-list>ul>li:nth-child(1)>span>span {
-	color: #fa6800!important;
+	color: #fa6800 !important;
 }
 
 #home-paper-list>ul>li:nth-child(2)>span>span {
-	color: #1ba1e2!important;
+	color: #1ba1e2 !important;
 }
 
 #home-paper-list>ul>li:nth-child(3)>span>span {
-	color: #60a917!important;
+	color: #60a917 !important;
 }
 
 #home-paper-list>ul>li:nth-child(4)>span>span {
@@ -105,11 +125,11 @@ body {
 }
 
 #home-paper-list>ul>li:nth-child(6)>span>span {
-	color: #ffe484!important;
+	color: #ffe484 !important;
 }
 
 #home-paper-list>ul>li:nth-child(7)>span>span {
-	color: #fa6800!important;
+	color: #fa6800 !important;
 }
 
 #downloadDialog .button {
