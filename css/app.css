@@ -1,44 +1,9 @@
 html,
 body {
 	height: 100%;
-	display: flex;
-	flex-direction: column;
 }
-
 
 .loadingHide {
-	display: none;
-}
-
-.app-container {
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-	overflow: hidden;
-}
-
-#app {
-	display: flex;
-	flex-direction: column;
-	flex: 1;
-}
-
-#cnzz_stat_icon_1278643045 {
-	flex: 0 0 12px;
-	text-align: right;
-	margin-right: 12px;
-	font-size: 12px;
-}
-
-#home {
-	display: flex;
-}
-
-#paper{
-	display: flex;
-}
-
-#cnzz_stat_icon_1278643045>a:first-child {
 	display: none;
 }
 
@@ -54,6 +19,17 @@ body {
 	text-align: center;
 }
 
+#cnzz_stat_icon_1278643045 {
+	margin-right: 12px;
+	font-size: 12px;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+}
+
+#cnzz_stat_icon_1278643045>a:first-child {
+	display: none;
+}
 
 /***
  * 选项

@@ -13,11 +13,6 @@
 		<meta http-equiv="Expires" content="0" />
 		<meta name="metro4:init" content="false">
 		<title>安规考试复习系统</title>
-		<style type="text/css">
-			[v-cloak] {
-				display: none !important;
-			}
-		</style>
 		<link type="text/css" href="https://cdn.bootcss.com/metro/4.1.2/css/metro-all.min.css" rel="stylesheet">
 		<link type="text/css" href="css/app.css" rel="stylesheet">
 	</head>
@@ -26,116 +21,112 @@
 		<div class="loadingHide" data-role="appbar" style="background-color: #0078d7;">
 			<a class="brand text-leader" href="javascript:openHome()" style="color:#f5f5f5;"> 2020 年安规复习系统 </a>
 		</div>
-		<div class="app-container">
-			<div class="scroll-y" style="flex: 1; display: flex;">
-				<div id="app" class="loadingHide" v-cloak>
-					<div v-show="!showPaper" id="home" class="container-fluid">
-						<div class="container hero">
-							<ul id="subjects" class="tabs-expand-md" @click="handleSubjectTabClick" data-role="tabs">
-								<li v-for="(subject,index) in subjects" v-once>
-									<a href="">{{subject}}</a>
-								</li>
-							</ul>
-							<div class="border bd-default no-border-top p-2">
-								<ul id="home-paper-listview" data-on-node-click="openPaper" data-role="listview" data-view="icons-medium">
-									<li data-caption="专项复习">
-										<ul>
-											<li data-caption="单选题" data-icon="<span class='mif-folder-plus fg-red'></span>" data-type="单选"></li>
-											<li data-caption="多选题" data-icon="<span class='mif-folder-plus fg-green'></span>" data-type="多选"></li>
-											<li data-caption="判断题" data-icon="<span class='mif-folder-plus fg-blue'></span>" data-type="判断"></li>
-										</ul>
-									</li>
-									<li data-caption="模拟测试">
-										<ul>
-											<li data-caption="仿真模拟" data-icon="<span class='mif-folder-special fg-blue'></span>" data-type="模拟"></li>
-										</ul>
-									</li>
+		<div id="app" class="loadingHide">
+			<div v-show="!showPaper" id="home" class="container-fluid">
+				<div class="container hero">
+					<ul id="subjects" class="tabs-expand-md" @click="handleSubjectTabClick" data-role="tabs">
+						<li v-for="(subject,index) in subjects" v-once>
+							<a href="">{{subject}}</a>
+						</li>
+					</ul>
+					<div class="border bd-default no-border-top p-2">
+						<ul id="home-paper-listview" data-on-node-click="openPaper" data-role="listview" data-view="icons-medium">
+							<li data-caption="专项复习">
+								<ul>
+									<li data-caption="单选题" data-icon="<span class='mif-folder-plus fg-red'></span>" data-type="单选"></li>
+									<li data-caption="多选题" data-icon="<span class='mif-folder-plus fg-green'></span>" data-type="多选"></li>
+									<li data-caption="判断题" data-icon="<span class='mif-folder-plus fg-blue'></span>" data-type="判断"></li>
 								</ul>
+							</li>
+							<li data-caption="模拟测试">
+								<ul>
+									<li data-caption="仿真模拟" data-icon="<span class='mif-folder-special fg-blue'></span>" data-type="模拟"></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div v-show="showPaper" id="paper" class="container-fluid">
+				<div class="container hero">
+					<blockquote class="bd-green">
+						<div class="h6">复习测试</div>
+						<div class="small">科目：{{ currentSubjectName }} </div>
+					</blockquote>
+
+					<div class="container border bd-lightGray" style="padding-top:1em; padding-bottom: 1em; margin-bottom: 1em;">
+						<div class="form-group">
+							<div style="margin-bottom: 1em;">
+								<code class="info">{{ currentProgress }}</code>
+								<code class="info">{{ currentQuestionType }}</code>
+							</div>
+							<div class="indent" style="font-size: 20px; line-height: 40px">{{ currentQuestionDesc }}</div>
+						</div>
+						<div class="question-option-group">
+							<div v-for="(item, index) in currentQuestionOptions" class="form-group">
+								<label v-if="currentQuestionType!='多选'" class="radio question-option">
+									<input :id="'quesion-option-'+index" name="r1" type="radio">
+									<span class="check"></span>
+									<span class="caption" style="font-size: 20px; line-height: 30px;">{{optionIndex[index]+'.'+item}}</span>
+								</label>
+
+								<label v-else :for="'quesion-option-'+index" class="checkbox question-option">
+									<input :id="'quesion-option-'+index" type="checkbox">
+									<span class="check"></span>
+									<span class="caption" style="font-size: 20px; line-height: 37px;">{{optionIndex[index]+'.'+item}}</span>
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row flex-justify-around">
+								<div class="cell">
+									<button class="button success" @click="handleNextQuestion">下一题</button>
+									<button class="button secondary" @click="handleLastQuestion">上一题</button>
+								</div>
+								<div class="cell">
+									<button id="quesiton-point-toggle" class="button info">查看答案</button>
+									<button class="button warning" @click="handleSubmitPaper">交卷</button>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div id="question-point" class data-collapsed="true" data-role="collapse" data-toggle-element="#quesiton-point-toggle">
+								<p>正确答案：{{currentQuestionKey}}</p>
+								<p v-for="item in currentQuestionPoint"> {{item}}</p>
 							</div>
 						</div>
 					</div>
 
-					<div v-show="showPaper" id="paper" class="container-fluid">
-						<div class="container hero">
-							<blockquote class="bd-green">
-								<div class="h6">复习测试</div>
-								<div class="small">科目：{{ currentSubjectName }} </div>
-							</blockquote>
-
-							<div class="container border bd-lightGray" style="padding-top:1em; padding-bottom: 1em; margin-bottom: 1em;">
-								<div class="form-group">
-									<div style="margin-bottom: 1em;">
-										<code class="info">{{ currentProgress }}</code>
-										<code class="info">{{ currentQuestionType }}</code>
-									</div>
-									<div class="indent" style="font-size: 20px; line-height: 40px">{{ currentQuestionDesc }}</div>
-								</div>
-								<div class="question-option-group">
-									<div v-for="(item, index) in currentQuestionOptions" class="form-group">
-										<label v-if="currentQuestionType!='多选'" class="radio question-option">
-											<input :id="'quesion-option-'+index" name="r1" type="radio">
-											<span class="check"></span>
-											<span class="caption" style="font-size: 20px; line-height: 30px;">{{optionIndex[index]+'.'+item}}</span>
-										</label>
-
-										<label v-else :for="'quesion-option-'+index" class="checkbox question-option">
-											<input :id="'quesion-option-'+index" type="checkbox">
-											<span class="check"></span>
-											<span class="caption" style="font-size: 20px; line-height: 37px;">{{optionIndex[index]+'.'+item}}</span>
-										</label>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="row flex-justify-around">
-										<div class="cell">
-											<button class="button success" @click="handleNextQuestion">下一题</button>
-											<button class="button secondary" @click="handleLastQuestion">上一题</button>
-										</div>
-										<div class="cell">
-											<button id="quesiton-point-toggle" class="button info">查看答案</button>
-											<button class="button warning" @click="handleSubmitPaper">交卷</button>
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div id="question-point" class data-collapsed="true" data-role="collapse" data-toggle-element="#quesiton-point-toggle">
-										<p>正确答案：{{currentQuestionKey}}</p>
-										<p v-for="item in currentQuestionPoint"> {{item}}</p>
-									</div>
-								</div>
+					<blockquote class="bd-green">
+						<div class="h6">题目索引</div>
+					</blockquote>
+					<div id="paper-question-list-index" class="container" style="margin-top: 1em;">
+						<div class="grid" style="margin-top: 1em;">
+							<div class="row">
+								<div v-for="(item,index) in questionStates" :class="questionStatesColor(item, index)" class="stub" @click="handleJumpQuestion(index)">
+									{{index + 1}} </div>
 							</div>
-
-							<blockquote class="bd-green">
-								<div class="h6">题目索引</div>
-							</blockquote>
-							<div id="paper-question-list-index" class="container" style="margin-top: 1em;">
-								<div class="grid" style="margin-top: 1em;">
-									<div class="row">
-										<div v-for="(item,index) in questionStates" :class="questionStatesColor(item, index)" class="stub" @click="handleJumpQuestion(index)">
-											{{index + 1}} </div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div id="downloadDialog" style="visible: none;" class="dialog mx-auto mt-4 mb-4" data-role="dialog">
-						<div class="dialog-title">{{ downloadState? '试卷准备中,请稍等':'试卷准备好了,可以开始答题'}}</div>
-						<div class="dialog-content">试卷准备进度: {{downloadProgress}}</div>
-						<div class="dialog-actions">
-							<button v-bind:class="{success:!downloadState}" :disabled="downloadState" class="button js-dialog-close" @click="beginTest">开始答题</button>
-							<button class="button primary js-dialog-close">取消</button>
 						</div>
 					</div>
 				</div>
 			</div>
+
+			<div id="downloadDialog" class="dialog mx-auto mt-4 mb-4" data-role="dialog">
+				<div class="dialog-title">{{ downloadState? '试卷准备中,请稍等':'试卷准备好了,可以开始答题'}}</div>
+				<div class="dialog-content">试卷准备进度: {{downloadProgress}}</div>
+				<div class="dialog-actions">
+					<button v-bind:class="{success:!downloadState}" :disabled="downloadState" class="button js-dialog-close" @click="beginTest">开始答题</button>
+					<button class="button primary js-dialog-close">取消</button>
+				</div>
+			</div>
 		</div>
+
 		<script type="text/javascript">
 			document.write(unescape(
 				"%3Cspan id='cnzz_stat_icon_1278643045'%3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php%3Fid%3D1278643045%26online%3D2' type='text/javascript'%3E%3C/script%3E"
 			));
 		</script>
-
 	</body>
 
 	<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js" type="text/javascript" charset="utf-8"></script>
