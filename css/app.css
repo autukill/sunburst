@@ -1,6 +1,22 @@
 html,
-body {
+body,
+#app,
+#home {
 	height: 100%;
+}
+
+* {
+	font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
+.space {
+	flex: 1
+}
+
+#home>.container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 .loadingHide {
@@ -40,27 +56,27 @@ body {
 	margin-top: 1rem;
 }
 
-
-.actions .button{
+.actions .button {
 	width: 100px;
 }
 
 @media screen and (max-width: 520px) {
 	.actions {
+		min-height: 95px;
 		flex-direction: column;
 	}
-	
+
 	.actions .cell {
 		display: flex;
 		justify-content: space-around;
 	}
-	
+
 	.actions .button {
 		margin: 5px 0px;
 	}
 }
 
-	
+
 
 /***
  * 选项描述的行间距
