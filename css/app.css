@@ -10,10 +10,6 @@ body {
 	display: none;
 }
 
-.scroll-y {
-	overflow-y: auto;
-}
-
 .app-container {
 	display: flex;
 	flex: 1;
@@ -32,6 +28,14 @@ body {
 	text-align: right;
 	margin-right: 12px;
 	font-size: 12px;
+}
+
+#home {
+	display: flex;
+}
+
+#paper{
+	display: flex;
 }
 
 #cnzz_stat_icon_1278643045>a:first-child {
