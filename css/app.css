@@ -3,6 +3,7 @@ body,
 #app,
 #home {
 	height: 100%;
+	width: 100%;
 }
 
 * {
@@ -11,12 +12,6 @@ body,
 
 .space {
 	flex: 1
-}
-
-#home>.container {
-	height: 100%;
-	display: flex;
-	flex-direction: column;
 }
 
 .loadingHide {
