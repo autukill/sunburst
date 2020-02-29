@@ -110,7 +110,7 @@ function paper(questionType) {
 			if (dataEmpty) {
 				if (objClose) {
 					questions.push(obj)
-					console.log("push", JSON.stringify(obj))
+					// console.log("push", JSON.stringify(obj))
 					obj = null;
 				}
 				continue;
@@ -118,7 +118,7 @@ function paper(questionType) {
 
 			// 新的题目
 			if (obj == null) {
-				console.log("new",  questions.length)
+				// console.log("new",  questions.length)
 				obj = new question();
 				obj.type = self.questionType
 				var value = headReg.exec(targetData);

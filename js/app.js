@@ -16,6 +16,14 @@ new Vue({
 			currentSubjectIndex: 0,
 			showPaper: false,
 			/**
+			 * 打乱题目顺序
+			 */
+			isRandomNum: false,
+			/**
+			 * 打乱选项顺序
+			 */
+			isRandomOpt: false,
+			/**
 			 * 当前试卷的全部题目
 			 */
 			questions: new Array(),
@@ -44,10 +52,6 @@ new Vue({
 			 */
 			paperTypeName: "",
 			/**
-			 * 当前选择的试卷类型是测试卷的第几张的索引值
-			 */
-			// testPaperIndex: -1,
-			/**
 			 * 题库下载中状态
 			 */
 			downloadState: true,
@@ -60,11 +64,20 @@ new Vue({
 			 * 已下载的文件数量
 			 */
 			downloaded: 0,
+
 			/**
 			 * 需要下载的文件数量
 			 */
 			downloadCount: 0,
 
+			/**
+			 * 当前试卷的原题库
+			 */
+			paperLoaded: {
+				"单选": null,
+				"多选": null,
+				"判断": null
+			},
 			/**
 			 * 答题选项序号
 			 */
@@ -93,7 +106,7 @@ new Vue({
 		currentQuestionType: function() {
 			if (this.questions.length == 0) return "";
 			var target = this.questions[this.currentQuestionNumber];
-			if(target) {
+			if (target) {
 				return target.type || ""
 			}
 			return ""
@@ -195,7 +208,8 @@ new Vue({
 					bingoCount++
 				}
 			}
-			alert("共" + this.questions.length + "道题，正确率: " + Math.round(bingoCount / this.questions.length * 10000) / 100 +
+			alert("共" + this.questions.length + "道题，答对" + bingoCount + "道题，正确率: " + Math.round(bingoCount / this.questions.length *
+					10000) / 100 +
 				"%")
 			openHome();
 		},
@@ -310,9 +324,33 @@ new Vue({
 			}, 0);
 		},
 		/**
-		 * 开始答题
+		 * 开始答题 根据用户选择, 生成试卷
 		 */
 		beginTest: function() {
+			// 根据用户选项生成试卷
+			var paperTypeName = this.paperTypeName
+
+			this.isRandomNum = document.getElementById("paper-config-random-num").checked
+			this.isRandomOpt = document.getElementById("paper-config-random-opt").checked
+
+			var questions = [];
+
+			// 模拟测试
+			if (paperTypeName === "模拟") {
+				// 随机 60 个 单选
+				generateQuestions(this.paperLoaded["单选"], "单选", 60, questions)
+				// 随机 10 个 多选
+				generateQuestions(this.paperLoaded["多选"], "多选", 10, questions)
+				// 随机 30 个 判断
+				generateQuestions(this.paperLoaded["判断"], "判断", 30, questions)
+			}
+			// 专项复习
+			else {
+				generateQuestions(this.paperLoaded[paperTypeName], paperTypeName, this.paperLoaded[paperTypeName].length,
+					questions)
+			}
+			this.questions = questions;
+
 			if (this.questions.length === 0) {
 				alert("所选类型的试卷没有题库,请选择其他")
 				return
@@ -326,33 +364,57 @@ new Vue({
 	}
 })
 
-
 /**
- * 从 currentPaper 中随机取出 count 个 question
+ * 从 currentPaper 中根据条件取出 count 个 question
  * @param {Object} paper
  * @param {Object} type
  * @param {Object} count
  * @param {Object} questions
  */
-function randomQuestions(currentPaper, type, count, questions) {
+function generateQuestions(currentPaper, type, count, questions) {
+	var vue = app.vue;
+
 	if (count > currentPaper.length) {
 		count = currentPaper.length
 	}
+
+	// 打乱题目顺序
 	var currentQuestionsIndex = []
-	while (currentQuestionsIndex.length < count) {
-		var questionIndex = Metro.utils.random(0, currentPaper.length - 1)
-		if (currentQuestionsIndex.indexOf(questionIndex) >= 0) {
-			continue
-		}
-		currentQuestionsIndex.push(questionIndex)
+	switch (vue.isRandomNum) {
+		case true:
+			while (currentQuestionsIndex.length < count) {
+				var questionIndex = Metro.utils.random(0, currentPaper.length - 1)
+				if (currentQuestionsIndex.indexOf(questionIndex) >= 0) {
+					continue
+				}
+				currentQuestionsIndex.push(questionIndex)
+			}
+			break;
+
+		case false:
+			currentQuestionsIndex = new Array(count).fill().map((item, index) => index)
+			break;
 	}
-	for (var i = 0; i < currentQuestionsIndex.length; i++) {
-		var question = currentPaper[currentQuestionsIndex[i]];
 
-		if (type != "判断")
-			randomQuestionOption(question)
+	// 打乱选项顺序
+	switch (vue.isRandomOpt) {
+		case true:
+			for (var i = 0; i < currentQuestionsIndex.length; i++) {
+				var question = currentPaper[currentQuestionsIndex[i]];
 
-		questions.push(question);
+				if (type != "判断")
+					randomQuestionOption(question)
+
+				questions.push(question);
+			}
+			break;
+
+		case false:
+			for (var i = 0; i < currentQuestionsIndex.length; i++) {
+				var question = currentPaper[currentQuestionsIndex[i]];
+				questions.push(question);
+			}
+			break;
 	}
 }
 
@@ -419,7 +481,7 @@ function randomQuestionOption(question) {
 }
 
 /**
- * 对话框,生成模拟试卷
+ * 对话框
  * @param {Object} node
  * @param {Object} listview
  */
@@ -436,60 +498,34 @@ function openPaper(node, listview) {
 
 	var thisDownloadToken = ++vue.downloadToken;
 
+	/**
+	 * 加载题库完成的回调事件
+	 * @param {Object} paper
+	 */
+	function paperLoadedCallback(paper) {
+		// 用户点了取消
+		if (thisDownloadToken !== vue.downloadToken || !Metro.dialog.isOpen("#downloadDialog")) {
+			return;
+		}
+		vue.paperLoaded[paper.questionType] = paper.questions
+		vue.downloaded++;
+		if (vue.downloadCount === vue.downloaded) {
+			vue.downloadState = false;
+		}
+	}
+
 	// 专项复习
 	if (paperTypeName !== "模拟") {
 		vue.downloadCount = 1;
-		vue.downloaded = 0;
+
 		var path = "./papers/" + subjectDirName + "/" + paperTypeName + ".txt";
-		var newPaper = new paper(paperTypeName);
-		newPaper.load(path, function(paper) {
-			// 用户点了取消
-			if (thisDownloadToken != vue.downloadToken || !Metro.dialog.isOpen("#downloadDialog")) {
-				return;
-			}
-			vue.downloaded++;
-			var questions = [];
-			randomQuestions(paper.questions, paperTypeName, paper.questions.length, questions)
-			vue.questions = questions;
-			vue.downloadState = false;
-		});
+		new paper(paperTypeName).load(path, paperLoadedCallback)
 		return null;
 	}
 
 	// 模拟测试
 	vue.downloadCount = 3; // 单选  多选 判断;
-	// 存放题库
-	var papers = {}
-	/**
-	 * 生成仿真试卷
-	 */
-	var generatPaper = function() {
-		if (papers.length == 0) return;
-		var questions = [];
 
-		// 随机 60 个 单选 
-		randomQuestions(papers["单选"], "单选", 60, questions)
-		// 随机 10 个 多选
-		randomQuestions(papers["多选"], "多选", 10, questions)
-		// 随机 30 个 判断
-		randomQuestions(papers["判断"], "判断", 30, questions)
-
-		vue.questions = questions;
-	}
-
-	// 加载结果回调
-	var paperLoadedCallback = function(paper) {
-		// 用户点了取消
-		if (thisDownloadToken !== vue.downloadToken || !Metro.dialog.isOpen("#downloadDialog")) {
-			return;
-		}
-		papers[paper.questionType] = paper.questions
-		vue.downloaded++;
-		if (vue.downloadCount === vue.downloaded) {
-			generatPaper();
-			vue.downloadState = false;
-		}
-	}
 	// 异步加载学科下全部文件	
 	new paper("单选").load("./papers/" + subjectDirName + "/单选.txt", paperLoadedCallback);
 	new paper("多选").load("./papers/" + subjectDirName + "/多选.txt", paperLoadedCallback);

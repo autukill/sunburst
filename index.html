@@ -120,7 +120,14 @@
 
 			<div id="downloadDialog" class="dialog mx-auto mt-4 mb-4" data-role="dialog">
 				<div class="dialog-title">{{ downloadState? '试卷准备中,请稍等':'试卷准备好了,可以开始答题'}}</div>
-				<div class="dialog-content">试卷准备进度: {{downloadProgress}}</div>
+				<div class="dialog-content">
+					<div v-if="downloadState">
+						试卷准备进度: {{downloadProgress}}
+					</div>
+					<div style="margin-top: 6px;">配置试卷参数：</div>
+					<input type="checkbox" id="paper-config-random-num" data-role="checkbox" data-caption="打乱题目顺序" data-style="2" />
+					<input type="checkbox" id="paper-config-random-opt" data-role="checkbox" data-caption="打乱选项顺序" data-style="2" />
+				</div>
 				<div class="dialog-actions">
 					<button v-bind:class="{success:!downloadState}" :disabled="downloadState" class="button js-dialog-close" @click="beginTest">开始答题</button>
 					<button class="button primary js-dialog-close">取消</button>
