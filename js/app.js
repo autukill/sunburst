@@ -316,12 +316,12 @@ new Vue({
 		/**
 		 * 重置答案要点的显示
 		 */
-		resetQuestionPointDisplay: function() {
+		resetQuestionPointDisplay: function(scrollTop = 100) {
 			$("#question-point").addClass("collapsed");
 			$("#question-point").css("display", "none");
 			$('html,body').animate({
-				scrollTop: 0
-			}, 0);
+				scrollTop: scrollTop
+			}, 300);
 		},
 		/**
 		 * 开始答题 根据用户选择, 生成试卷
@@ -334,7 +334,6 @@ new Vue({
 			this.isRandomOpt = document.getElementById("paper-config-random-opt").checked
 
 			var questions = [];
-
 			// 模拟测试
 			if (paperTypeName === "模拟") {
 				// 随机 60 个 单选
@@ -351,13 +350,15 @@ new Vue({
 			}
 			this.questions = questions;
 
+			// 判断空试卷
 			if (this.questions.length === 0) {
 				alert("所选类型的试卷没有题库,请选择其他")
 				return
 			}
+
 			this.currentQuestionNumber = 0;
 			this.resetQuestionStates();
-			this.resetQuestionPointDisplay()
+			this.resetQuestionPointDisplay(0)
 			this.showPaper = true;
 			$("body").addClass("eyeColor");
 		}
