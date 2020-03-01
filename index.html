@@ -23,6 +23,7 @@
 			<a class="brand text-leader" href="javascript:openHome()" style="color:#f5f5f5;"> 2020 年安规复习系统 </a>
 		</div>
 		<div id="app" class="loadingHide">
+			
 			<div v-show="!showPaper" id="home" class="container-fluid">
 				<div class="container hero">
 					<ul id="subjects" class="tabs-expand-md" @click="handleSubjectTabClick" data-role="tabs">
@@ -50,7 +51,7 @@
 						<p>内容仅供参考，不能保证内容的正确性。如有发现错误的内容，请联系维护人。</p>
 						<p>系统维护人QQ：393382242<p>
 						<p>题库维护人QQ：360367789<p>
-						<p>本系统网址：<a href="https://autukill.gitee.io/exam/" target="_blank">https://autukill.gitee.io/exam/</a><p>
+						<p>本系统网址：<a href="https://autukill.gitee.io/exam/" target="_blank">https://autukill.gitee.io/exam/</a> <p>
 					</div>
 				</div>
 			</div>
@@ -64,7 +65,7 @@
 
 					<div class="container border bd-lightGray" style="padding-top:1em; padding-bottom: 1em; margin-bottom: 1em;">
 						<div class="form-group">
-							<div style="margin-bottom: 1em;">
+							<div style="margin-bottom: 1em;" id="questionNum">
 								<code class="info">{{ currentProgress }}</code>
 								<code class="info">{{ currentQuestionType }}</code>
 							</div>
@@ -73,13 +74,13 @@
 						<div class="question-option-group">
 							<div v-for="(item, index) in currentQuestionOptions" class="form-group">
 								<label v-if="currentQuestionType!='多选'" class="radio question-option">
-									<input :id="'quesion-option-'+index" name="r1" type="radio">
+									<input :id="'quesion-option-'+index" name="r1" type="radio" :disabled="isPaperSubmited">
 									<span class="check"></span>
 									<span class="caption" style="font-size: 20px; line-height: 30px;">{{optionIndex[index]+'.'+item}}</span>
 								</label>
 
 								<label v-else :for="'quesion-option-'+index" class="checkbox question-option">
-									<input :id="'quesion-option-'+index" type="checkbox">
+									<input :id="'quesion-option-'+index" type="checkbox" :disabled="isPaperSubmited">
 									<span class="check"></span>
 									<span class="caption" style="font-size: 20px; line-height: 37px;">{{optionIndex[index]+'.'+item}}</span>
 								</label>
@@ -92,7 +93,8 @@
 									<button class="button success" @click="handleNextQuestion">下一题</button>
 								</div>
 								<div class="cell">
-									<button class="button warning" @click="handleSubmitPaper">交卷</button>
+									<button v-if="!isPaperSubmited" class="button warning" @click="handleSubmitPaper">交卷</button>
+									<button v-else class="button warning" @click="handleSubmitPaper">返回首页</button>
 									<button id="quesiton-point-toggle" class="button info">查看答案</button>
 								</div>
 							</div>
@@ -146,8 +148,8 @@
 	<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="https://cdn.bootcss.com/metro/4.1.2/js/metro.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/config.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/paper.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/config.js?v=2020-3-1" type="text/javascript" charset="utf-8"></script>
+	<script src="js/paper.js?v=2020-3-1" type="text/javascript" charset="utf-8"></script>
+	<script src="js/app.js?v=2020-3-1" type="text/javascript" charset="utf-8"></script>
 
 </html>

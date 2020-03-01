@@ -81,7 +81,11 @@ new Vue({
 			/**
 			 * 答题选项序号
 			 */
-			optionIndex: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M']
+			optionIndex: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'],
+			/**
+			 * 试卷的提交状态标识
+			 */
+			isPaperSubmited: false
 		}
 	},
 	computed: {
@@ -173,7 +177,8 @@ new Vue({
 			if (this.currentQuestionNumber - 1 >= 0) {
 				this.saveUserSelect();
 				this.currentQuestionNumber--;
-				this.resetQuestionPointDisplay();
+				if (!this.isPaperSubmited)
+					this.resetQuestionPointDisplay();
 				this.checkUserSelect();
 			} else {
 				Metro.toast.create("已经到第一题了")
@@ -184,7 +189,8 @@ new Vue({
 			if (this.currentQuestionNumber + 1 < this.questions.length) {
 				this.saveUserSelect();
 				this.currentQuestionNumber++;
-				this.resetQuestionPointDisplay();
+				if (!this.isPaperSubmited)
+					this.resetQuestionPointDisplay();
 				this.checkUserSelect();
 			} else {
 				Metro.toast.create("这是最后一道题")
@@ -195,23 +201,51 @@ new Vue({
 			if (this.currentQuestionNumber == index) return;
 			this.saveUserSelect();
 			this.currentQuestionNumber = index;
-			this.resetQuestionPointDisplay();
+			if (!this.isPaperSubmited)
+				this.resetQuestionPointDisplay();
 			this.checkUserSelect();
 		},
 		// 提交
 		handleSubmitPaper: function(e) {
-			this.saveUserSelect();
-			this.resetQuestionPointDisplay();
-			var bingoCount = 0
-			for (var i = 0; i < this.questions.length; i++) {
-				if (this.questionStates[i] === 2) {
-					bingoCount++
-				}
+			var vue = this;
+			// 已经提交的话,返回首页
+			if (this.isPaperSubmited) {
+				window.openHome()
+				$('html,body').animate({
+					scrollTop: 0
+				}, 0);
+				return
 			}
-			alert("共" + this.questions.length + "道题，答对" + bingoCount + "道题，正确率: " + Math.round(bingoCount / this.questions.length *
-					10000) / 100 +
-				"%")
-			openHome();
+
+			Metro.dialog.create({
+				title: "是否要提交答卷?",
+				content: "<div>提交后不能修改选项,只能浏览题目</div><div>提交后如需返回首页,请点击返回首页</div>",
+				actions: [{
+					caption: "提交",
+					cls: "js-dialog-close alert",
+					onclick: function() {
+						// 保存当前题目的选择
+						vue.saveUserSelect();
+
+						// 结算
+						var bingoCount = 0
+						for (var i = 0; i < vue.questions.length; i++) {
+							if (vue.questionStates[i] === 2) {
+								bingoCount++
+							}
+						}
+
+						var correctRate = Math.round(bingoCount / vue.questions.length * 10000) / 100 + "%"
+						alert("共" + vue.questions.length + "道题，答对" + bingoCount + "道题，正确率: " + correctRate)
+						vue.isPaperSubmited = true
+					}
+				}, {
+					caption: "取消",
+					cls: "js-dialog-close"
+				}]
+			});
+
+
 		},
 		// Check 被用户选中的选项
 		checkUserSelect: function() {
@@ -356,9 +390,11 @@ new Vue({
 				return
 			}
 
+			this.isPaperSubmited = false;
 			this.currentQuestionNumber = 0;
 			this.resetQuestionStates();
-			this.resetQuestionPointDisplay(0)
+			this.resetQuestionPointDisplay(0);
+
 			this.showPaper = true;
 			$("body").addClass("eyeColor");
 		}

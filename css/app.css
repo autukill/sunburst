@@ -75,7 +75,6 @@ body,
 /***
  * 选项描述的行间距
  */
-
 .question-option-group span.caption {
 	line-height: 1rem;
 }
@@ -84,7 +83,6 @@ body,
 /**
  * 取消答题选项被选中的过渡效果
  */
-
 #paper .question-option>.check {
 	transition: none;
 	-webkit-transition: none;
@@ -95,9 +93,13 @@ body,
 /**
  * 修正答题选项多行时 radio 被压扁
  */
-
 .question-option {
 	display: -webkit-inline-box;
+}
+
+.radio input[type=radio]:disabled~.check::before {
+	background-color: black;
+	border-color: black;
 }
 
 #paper .stub {
@@ -114,7 +116,6 @@ body,
 /**
  * 设定首页复习卷子项目的图标颜色
  */
-
 #home-paper-list>ul>li:nth-child(1)>span>span {
 	color: #fa6800 !important;
 }
