@@ -217,6 +217,9 @@ new Vue({
 				return
 			}
 
+			// 保存当前题目的选择
+			vue.saveUserSelect();
+
 			Metro.dialog.create({
 				title: "是否要提交答卷?",
 				content: "<div>提交后不能修改选项,只能浏览题目</div><div>提交后如需返回首页,请点击返回首页</div>",
@@ -224,17 +227,13 @@ new Vue({
 					caption: "提交",
 					cls: "js-dialog-close alert",
 					onclick: function() {
-						// 保存当前题目的选择
-						vue.saveUserSelect();
-
 						// 结算
 						var bingoCount = 0
 						for (var i = 0; i < vue.questions.length; i++) {
 							if (vue.questionStates[i] === 2) {
 								bingoCount++
 							}
-						}
-
+						}						
 						var correctRate = Math.round(bingoCount / vue.questions.length * 10000) / 100 + "%"
 						alert("共" + vue.questions.length + "道题，答对" + bingoCount + "道题，正确率: " + correctRate)
 						vue.isPaperSubmited = true
@@ -429,7 +428,7 @@ function generateQuestions(currentPaper, type, count, questions) {
 			break;
 
 		case false:
-			currentQuestionsIndex = new Array(count).fill().map(function(item, index){
+			currentQuestionsIndex = new Array(count).fill().map(function(item, index) {
 				return index;
 			})
 			break;
