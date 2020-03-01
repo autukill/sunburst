@@ -233,7 +233,7 @@ new Vue({
 							if (vue.questionStates[i] === 2) {
 								bingoCount++
 							}
-						}						
+						}
 						var correctRate = Math.round(bingoCount / vue.questions.length * 10000) / 100 + "%"
 						alert("共" + vue.questions.length + "道题，答对" + bingoCount + "道题，正确率: " + correctRate)
 						vue.isPaperSubmited = true
@@ -265,11 +265,11 @@ new Vue({
 		setUserSelect: function() {
 			var vue = app.vue;
 			var selected = vue.currentOptionSelected;
-			if (selected < 0) return;
+			if (typeof selected === 'number' && selected < 0) return;
 
 			var options = $(".question-option input");
 			var userSelect = selected.split("");
-			if (options.length <= userSelect.length) return;
+			if (options.length < userSelect.length) return;
 
 			for (var i = 0; i < userSelect.length; i++) {
 				options[userSelect[i]].checked = true;
@@ -277,6 +277,9 @@ new Vue({
 		},
 		// 记录当前用户选项
 		saveUserSelect: function() {
+			if (this.isPaperSubmited) {
+				return
+			}
 			this.optionSelected[this.currentQuestionNumber] = "";
 			$(".question-option input:checked").each(function(index, el) {
 				var index = $(el).parent().parent().index();
