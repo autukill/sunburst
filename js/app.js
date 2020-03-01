@@ -350,11 +350,11 @@ new Vue({
 		/**
 		 * 重置答案要点的显示
 		 */
-		resetQuestionPointDisplay: function(scrollTop = 100) {
+		resetQuestionPointDisplay: function(scrollTop) {
 			$("#question-point").addClass("collapsed");
 			$("#question-point").css("display", "none");
 			$('html,body').animate({
-				scrollTop: scrollTop
+				scrollTop: scrollTop || 100
 			}, 300);
 		},
 		/**
@@ -429,7 +429,9 @@ function generateQuestions(currentPaper, type, count, questions) {
 			break;
 
 		case false:
-			currentQuestionsIndex = new Array(count).fill().map((item, index) => index)
+			currentQuestionsIndex = new Array(count).fill().map(function(item, index){
+				return index;
+			})
 			break;
 	}
 
