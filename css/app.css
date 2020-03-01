@@ -97,8 +97,13 @@ body,
 	display: -webkit-inline-box;
 }
 
-.radio input[type=radio]:disabled~.check::before {
+
+.question-option-group .radio input[type=radio]:disabled~.check::before {
 	background-color: black;
+	border-color: black;
+}
+
+.question-option-group .checkbox input[type=checkbox]:disabled~.check::before {
 	border-color: black;
 }
 
