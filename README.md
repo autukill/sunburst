@@ -1,6 +1,10 @@
 # 关于
 
-南方电网的安规模拟考试程序.
+安规模拟考试程序.
+
+## 演示地址
+
+国内: <https://autukill.gitee.io/exam/>
 
 ## 题库格式要求
 
@@ -9,6 +13,9 @@
 - 文本"Answer:A"中的冒号使用":"
 - 大写的选项序列"ABCDEF..."
 
-## 演示地址
+## 缓存问题
 
-国内: <https://autukill.gitee.io/exam/>
+修改程序后,需要手动编辑版本号,涉及以下文件
+
+- index.html 
+- config.js
