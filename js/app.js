@@ -373,11 +373,11 @@ new Vue({
 			// 模拟测试
 			if (paperTypeName === "模拟") {
 				// 随机 60 个 单选
-				generateQuestions(this.paperLoaded["单选"], "单选", this.paperLoaded["单选"].length, questions)
+				generateQuestions(this.paperLoaded["单选"], "单选", 60, questions)
 				// 随机 10 个 多选
-				generateQuestions(this.paperLoaded["多选"], "多选", this.paperLoaded["多选"].length, questions)
+				generateQuestions(this.paperLoaded["多选"], "多选", 10, questions)
 				// 随机 30 个 判断
-				generateQuestions(this.paperLoaded["判断"], "判断", this.paperLoaded["判断"].length, questions)
+				generateQuestions(this.paperLoaded["判断"], "判断", 30, questions)
 			}
 			// 专项复习
 			else {
