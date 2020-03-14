@@ -17,8 +17,11 @@
 
 修改程序后,需要手动编辑版本号,涉及以下文件
 
-- index.html 
-- config.js
+- index.html 底部 script 标签的版本值
+
+修改TXT题库后,需要手动编辑版本号,涉及以下文件
+
+- js/config.js 内的变量 window._version
 
 ## 在题目中显示图片
 
