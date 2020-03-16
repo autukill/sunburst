@@ -494,8 +494,8 @@ C.一般事故
 D.未造成人员伤亡的一般事故
 Answer:D
 
-75.依据《中国南方电网有限责任公司电力安全工作规程》，无接地引下线的杆塔，可采用临时接地体。（）的截面积不应小于190mm2、埋深不应小于0.6m。
+75.<img src="./img/papers/科目1/DX1-75.png"/>
 A.杆塔  
-B.<img src="./img/papers/科目1/DX1-75-B.png"/>接地线<img src="./img/papers/科目1/DX1-75-B.png"/>   
+B.<img src="./img/papers/科目1/DX1-75-B.png"/>
 C.临时接地体    
 Answer:C
