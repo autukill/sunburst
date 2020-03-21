@@ -16,6 +16,7 @@
 		<title>安规考试复习系统</title>
 		<link type="text/css" href="https://cdn.bootcss.com/metro/4.1.2/css/metro-all.min.css" rel="stylesheet">
 		<link type="text/css" href="css/app.css" rel="stylesheet">
+		<link type="text/css" href="css/viewer.min.css" rel="stylesheet">
 	</head>
 
 	<body>
@@ -70,7 +71,7 @@
 								<code class="info">{{ currentProgress }}</code>
 								<code class="info">{{ currentQuestionType }}</code>
 							</div>
-							<div class="indent question-desc" style="font-size: 20px; line-height: 40px" v-html="currentQuestionDesc"></div>
+							<div class="indent question-desc" v-viewer="{movable: false}" style="font-size: 20px; line-height: 40px" v-html="currentQuestionDesc"></div>
 						</div>
 						<div class="question-option-group">
 							<div v-for="(item, index) in currentQuestionOptions" class="form-group">
@@ -149,6 +150,8 @@
 	<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="https://cdn.bootcss.com/metro/4.1.2/js/metro.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/viewer.min.js?v=2020-3-3" type="text/javascript" charset="utf-8"></script>
+	<script src="js/v-viewer.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/IECompatible.js?v=2020-3-3" type="text/javascript" charset="utf-8"></script>
 	<script src="js/config.js?v=2020-3-3" type="text/javascript" charset="utf-8"></script>
 	<script src="js/paper.js?v=2020-3-3" type="text/javascript" charset="utf-8"></script>
