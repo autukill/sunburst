@@ -5,6 +5,6 @@ window._version = "2020-05-07"
 
 window.sunburst.config = {
 	"papers": {
-		"subjects": ["配网", "质安", "技经", "问答"]
+		"subjects": ["领导力", "配电中压", "营销", "安全", "综合", "综合", "党建", "基建"]
 	}
 }
