@@ -561,7 +561,7 @@ function openPaper(node, listview) {
 	if (paperTypeName !== "模拟") {
 		vue.downloadCount = 1;
 
-		var path = "./papers/" + subjectDirName + "/" + paperTypeName + ".js?v=" + window._version;
+		var path = "./papers/" + subjectDirName + "/" + paperTypeName + ".md?v=" + window._version;
 		new paper(paperTypeName).load(path, paperLoadedCallback)
 		return null;
 	}
@@ -570,9 +570,9 @@ function openPaper(node, listview) {
 	vue.downloadCount = 3; // 单选  多选 判断;
 
 	// 异步加载学科下全部文件	
-	new paper("单选").load("./papers/" + subjectDirName + "/单选.js?v=" + window._version, paperLoadedCallback);
-	new paper("多选").load("./papers/" + subjectDirName + "/多选.js?v=" + window._version, paperLoadedCallback);
-	new paper("判断").load("./papers/" + subjectDirName + "/判断.js?v=" + window._version, paperLoadedCallback);
+	new paper("单选").load("./papers/" + subjectDirName + "/单选.md?v=" + window._version, paperLoadedCallback);
+	new paper("多选").load("./papers/" + subjectDirName + "/多选.md?v=" + window._version, paperLoadedCallback);
+	new paper("判断").load("./papers/" + subjectDirName + "/判断.md?v=" + window._version, paperLoadedCallback);
 }
 
 /**
