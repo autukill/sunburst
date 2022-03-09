@@ -8,7 +8,7 @@ localStorage.clear()
 
 new Vue({
 	el: "#app",
-	data: function() {
+	data: function () {
 		return {
 			config: app.config,
 			subjects: app.config.papers.subjects,
@@ -94,14 +94,14 @@ new Vue({
 		/**
 		 * 当前试卷的科目名称
 		 */
-		currentSubjectName: function() {
+		currentSubjectName: function () {
 			return this.subjects[this.currentSubjectIndex];
 		},
 
 		/**
 		 * 当前试卷答题进度
 		 */
-		currentProgress: function() {
+		currentProgress: function () {
 			if (this.questions.length == 0) return "";
 			return (this.currentQuestionNumber + 1) + "/" + this.questions.length;
 		},
@@ -109,7 +109,7 @@ new Vue({
 		/**
 		 * 当前题的题型名称
 		 */
-		currentQuestionType: function() {
+		currentQuestionType: function () {
 			if (this.questions.length == 0) return "";
 			var target = this.questions[this.currentQuestionNumber];
 			if (target) {
@@ -121,7 +121,7 @@ new Vue({
 		/**
 		 * 当前题目的描述
 		 */
-		currentQuestionDesc: function() {
+		currentQuestionDesc: function () {
 			if (this.questions.length == 0) return "";
 			return this.questions[this.currentQuestionNumber].desc;
 		},
@@ -129,7 +129,7 @@ new Vue({
 		/**
 		 * 当前题目的选项
 		 */
-		currentQuestionOptions: function() {
+		currentQuestionOptions: function () {
 			if (this.questions.length == 0) return (new Array());
 			return this.questions[this.currentQuestionNumber].options;
 		},
@@ -137,7 +137,7 @@ new Vue({
 		/**
 		 * 当前题目的用户选择
 		 */
-		currentOptionSelected: function() {
+		currentOptionSelected: function () {
 			var length = this.optionSelected.length;
 			if (length == 0 || length <= this.currentQuestionNumber) return -1;
 			return this.optionSelected[this.currentQuestionNumber];
@@ -146,36 +146,36 @@ new Vue({
 		/**
 		 * 当前题目的正确答案
 		 */
-		currentQuestionKey: function() {
+		currentQuestionKey: function () {
 			if (this.questions.length == 0) return "";
 			return this.questions[this.currentQuestionNumber].key;
 		},
 		/**
 		 * 当前题目的答案要点
 		 */
-		currentQuestionPoint: function() {
+		currentQuestionPoint: function () {
 			if (this.questions.length == 0) return (new Array());
 			return this.questions[this.currentQuestionNumber].point;
 		},
 		/**
 		 * 试卷下载进度
 		 */
-		downloadProgress: function() {
+		downloadProgress: function () {
 			return (this.downloaded / this.downloadCount * 100).toFixed(0) + "%";
 		}
 	},
-	mounted: function() {
+	mounted: function () {
 		app.vue = this;
 		Metro.init();
 		$(".loadingHide").show(500);
 	},
 	methods: {
 		// 选择学科
-		handleSubjectTabClick: function(event) {
+		handleSubjectTabClick: function (event) {
 			this.currentSubjectIndex = $(event.target).parent().index();
 		},
 		// 上一题
-		handleLastQuestion: function(e) {
+		handleLastQuestion: function (e) {
 			if (this.currentQuestionNumber - 1 >= 0) {
 				this.saveUserSelect();
 				this.currentQuestionNumber--;
@@ -187,7 +187,7 @@ new Vue({
 			}
 		},
 		// 下一题
-		handleNextQuestion: function(e) {
+		handleNextQuestion: function (e) {
 			if (this.currentQuestionNumber + 1 < this.questions.length) {
 				this.saveUserSelect();
 				this.currentQuestionNumber++;
@@ -199,7 +199,7 @@ new Vue({
 			}
 		},
 		//  题目导航
-		handleJumpQuestion: function(index) {
+		handleJumpQuestion: function (index) {
 			if (this.currentQuestionNumber == index) return;
 			this.saveUserSelect();
 			this.currentQuestionNumber = index;
@@ -208,7 +208,7 @@ new Vue({
 			this.checkUserSelect();
 		},
 		// 提交
-		handleSubmitPaper: function(e) {
+		handleSubmitPaper: function (e) {
 			var vue = this;
 			// 已经提交的话,返回首页
 			if (this.isPaperSubmited) {
@@ -228,7 +228,7 @@ new Vue({
 				actions: [{
 					caption: "提交",
 					cls: "js-dialog-close alert",
-					onclick: function() {
+					onclick: function () {
 						// 结算
 						var bingoCount = 0
 						for (var i = 0; i < vue.questions.length; i++) {
@@ -249,14 +249,14 @@ new Vue({
 
 		},
 		// Check 被用户选中的选项
-		checkUserSelect: function() {
+		checkUserSelect: function () {
 			this.clearUserSelect();
 			// 异步更新视图
 			Vue.nextTick(this.setUserSelect);
 		},
 		// 清除用户check
-		clearUserSelect: function() {
-			$(".question-option input:checked").each(function(index, el) {
+		clearUserSelect: function () {
+			$(".question-option input:checked").each(function (index, el) {
 				el.checked = false;
 			});
 		},
@@ -264,7 +264,7 @@ new Vue({
 		 * 选中用户之前选中的选项
 		 * 异步更新视图
 		 */
-		setUserSelect: function() {
+		setUserSelect: function () {
 			var vue = app.vue;
 			var selected = vue.currentOptionSelected;
 			if (typeof selected === 'number' && selected < 0) return;
@@ -278,12 +278,12 @@ new Vue({
 			}
 		},
 		// 记录当前用户选项
-		saveUserSelect: function() {
+		saveUserSelect: function () {
 			if (this.isPaperSubmited) {
 				return
 			}
 			this.optionSelected[this.currentQuestionNumber] = "";
-			$(".question-option input:checked").each(function(index, el) {
+			$(".question-option input:checked").each(function (index, el) {
 				var index = $(el).parent().parent().index();
 				app.vue.optionSelected[app.vue.currentQuestionNumber] += index;
 			})
@@ -313,7 +313,7 @@ new Vue({
 		 * 2 - 正确
 		 * 3 - 错误
 		 */
-		questionStatesColor: function(stateIndex, index) {
+		questionStatesColor: function (stateIndex, index) {
 			if (index == this.currentQuestionNumber)
 				return "bg-lightBlue"
 			switch (stateIndex) {
@@ -330,13 +330,13 @@ new Vue({
 		/**
 		 * 设置题目的回答状态
 		 */
-		updateQuestionState: function(index, stateIndex) {
+		updateQuestionState: function (index, stateIndex) {
 			this.questionStates[index] = stateIndex;
 		},
 		/**
 		 * 重置题目的回答状态
 		 */
-		resetQuestionStates: function() {
+		resetQuestionStates: function () {
 			// 回答状态
 			var states = new Array(this.questions.length)
 			for (var i = 0; i < states.length; i++) {
@@ -354,7 +354,7 @@ new Vue({
 		/**
 		 * 重置答案要点的显示
 		 */
-		resetQuestionPointDisplay: function(scrollTop) {
+		resetQuestionPointDisplay: function (scrollTop) {
 			$("#question-point").addClass("collapsed");
 			$("#question-point").css("display", "none");
 			$('html,body').animate({
@@ -364,7 +364,7 @@ new Vue({
 		/**
 		 * 开始答题 根据用户选择, 生成试卷
 		 */
-		beginTest: function() {
+		beginTest: function () {
 			// 根据用户选项生成试卷
 			var paperTypeName = this.paperTypeName
 
@@ -412,7 +412,7 @@ new Vue({
  * @param {Object} count
  * @param {Object} questions
  */
-function generateQuestions(currentPaper, type, count, questions) {
+function generateQuestions (currentPaper, type, count, questions) {
 	var vue = app.vue;
 
 	if (count > currentPaper.length) {
@@ -433,7 +433,7 @@ function generateQuestions(currentPaper, type, count, questions) {
 			break;
 
 		case false:
-			currentQuestionsIndex = new Array(count).fill().map(function(item, index) {
+			currentQuestionsIndex = new Array(count).fill().map(function (item, index) {
 				return index;
 			})
 			break;
@@ -465,7 +465,7 @@ function generateQuestions(currentPaper, type, count, questions) {
  * 打乱选项
  * @param {Object} question
  */
-function randomQuestionOption(question) {
+function randomQuestionOption (question) {
 	// 正确选项的索引位置
 	var keyCount = question.key.length;
 	var optionCount = question.options.length;
@@ -528,7 +528,7 @@ function randomQuestionOption(question) {
  * @param {Object} node
  * @param {Object} listview
  */
-function openPaper(node, listview) {
+function openPaper (node, listview) {
 	var vue = app.vue;
 	var subjectIndex = vue.currentSubjectIndex;
 	var subjectDirName = vue.subjects[subjectIndex];
@@ -545,7 +545,7 @@ function openPaper(node, listview) {
 	 * 加载题库完成的回调事件
 	 * @param {Object} paper
 	 */
-	function paperLoadedCallback(paper) {
+	function paperLoadedCallback (paper) {
 		// 用户点了取消
 		if (thisDownloadToken !== vue.downloadToken || !Metro.dialog.isOpen("#downloadDialog")) {
 			return;
@@ -561,7 +561,7 @@ function openPaper(node, listview) {
 	if (paperTypeName !== "模拟") {
 		vue.downloadCount = 1;
 
-		var path = "./papers/" + subjectDirName + "/" + paperTypeName + ".md?v=" + window._version;
+		var path = "./papers/" + subjectDirName + "/" + paperTypeName + window._paperFileFormat + "?v=" + window._version;
 		new paper(paperTypeName).load(path, paperLoadedCallback)
 		return null;
 	}
@@ -570,15 +570,15 @@ function openPaper(node, listview) {
 	vue.downloadCount = 3; // 单选  多选 判断;
 
 	// 异步加载学科下全部文件	
-	new paper("单选").load("./papers/" + subjectDirName + "/单选.md?v=" + window._version, paperLoadedCallback);
-	new paper("多选").load("./papers/" + subjectDirName + "/多选.md?v=" + window._version, paperLoadedCallback);
-	new paper("判断").load("./papers/" + subjectDirName + "/判断.md?v=" + window._version, paperLoadedCallback);
+	new paper("单选").load("./papers/" + subjectDirName + "/单选" + window._paperFileFormat + "?v=" + window._version, paperLoadedCallback);
+	new paper("多选").load("./papers/" + subjectDirName + "/多选" + window._paperFileFormat + "?v=" + window._version, paperLoadedCallback);
+	new paper("判断").load("./papers/" + subjectDirName + "/判断" + window._paperFileFormat + "?v=" + window._version, paperLoadedCallback);
 }
 
 /**
  * 跳转首页
  */
-function openHome() {
+function openHome () {
 	Metro.dialog.close("#downloadDialog");
 	$("body").removeClass("eyeColor");
 	$("#home>div ul li.current-select").removeClass("current-select")
