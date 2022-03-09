@@ -1,6 +1,6 @@
 window.sunburst = window.sunburst ? window.sunburst : {};
 
-window._paperFileFormat = ".png"
+window._paperFileFormat = ""
 
 // 防止缓存 txt
 window._version = "2022-3-9"
